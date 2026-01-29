@@ -408,6 +408,47 @@
         </section>
     </main>
 
+    <!-- Chat Widget -->
+    <div id="chat-widget" class="chat-widget">
+        <button class="chat-toggle" onclick="toggleChat()" aria-label="Abrir chat">
+            <span class="chat-icon">💬</span>
+            <span class="chat-close-icon">✕</span>
+        </button>
+        <div class="chat-container">
+            <div class="chat-header">
+                <div class="chat-header-info">
+                    <span class="chat-avatar">🤖</span>
+                    <div>
+                        <h4>Asistente Vibe</h4>
+                        <span class="chat-status">En línea</span>
+                    </div>
+                </div>
+                <button class="chat-minimize" onclick="toggleChat()" aria-label="Cerrar chat">✕</button>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <div class="chat-message bot">
+                    <span class="message-avatar">🤖</span>
+                    <div class="message-content">
+                        <p>¡Hola! Soy el asistente de Vibe Coding. ¿En qué puedo ayudarte hoy?</p>
+                        <span class="message-time">Ahora</span>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input-container">
+                <input
+                    type="text"
+                    id="chat-input"
+                    class="chat-input"
+                    placeholder="Escribe tu mensaje..."
+                    onkeypress="handleChatKeypress(event)"
+                >
+                <button class="chat-send" onclick="sendMessage()" aria-label="Enviar mensaje">
+                    <span>→</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script src="app.js"></script>
 </body>
 </html>
