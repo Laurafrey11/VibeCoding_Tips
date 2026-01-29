@@ -216,6 +216,12 @@ console.log('🚀 Guía de Vibe Coding cargada correctamente');
 // Chat Widget Functionality
 // ==========================================
 
+// Estado para la función secreta de mercado
+let mercadoState = {
+    active: false,
+    waitingFor: null // 'tipo' o null
+};
+
 function toggleChat() {
     const widget = document.getElementById('chat-widget');
     widget.classList.toggle('open');
@@ -235,7 +241,19 @@ function sendMessage() {
     addChatMessage(message, 'user');
     input.value = '';
 
-    // Simulate bot response
+    // Check if we're in mercado flow
+    if (mercadoState.active && mercadoState.waitingFor === 'tipo') {
+        handleMercadoSelection(message);
+        return;
+    }
+
+    // Check for secret word "mercado"
+    if (message.toLowerCase() === 'mercado') {
+        activateMercadoSecreto();
+        return;
+    }
+
+    // Normal bot response
     setTimeout(() => {
         const response = getBotResponse(message);
         addChatMessage(response, 'bot');
@@ -272,6 +290,544 @@ function handleChatKeypress(event) {
     if (event.key === 'Enter') {
         sendMessage();
     }
+}
+
+// ==========================================
+// FUNCIÓN SECRETA: MERCADO
+// ==========================================
+
+function activateMercadoSecreto() {
+    mercadoState.active = true;
+    mercadoState.waitingFor = 'tipo';
+
+    setTimeout(() => {
+        addChatMessageHTML('bot', `
+            <strong>🔮 ¡Descubriste la función secreta!</strong><br><br>
+            ¿Qué tipo de mercado te interesa?<br><br>
+            <button class="mercado-btn" onclick="handleMercadoSelection('1')">📈 1. Financiero</button>
+            <button class="mercado-btn" onclick="handleMercadoSelection('2')">💼 2. Laboral</button>
+        `);
+        addMercadoStyles();
+    }, 500);
+}
+
+function handleMercadoSelection(selection) {
+    const sel = selection.toLowerCase().trim();
+
+    if (sel === '1' || sel.includes('financiero')) {
+        mercadoState.active = false;
+        mercadoState.waitingFor = null;
+        addChatMessage('Financiero', 'user');
+        fetchMercadoFinanciero();
+    } else if (sel === '2' || sel.includes('laboral')) {
+        mercadoState.active = false;
+        mercadoState.waitingFor = null;
+        addChatMessage('Laboral', 'user');
+        fetchMercadoLaboral();
+    } else {
+        addChatMessage('❌ Por favor, escribe 1 o 2, o "financiero" / "laboral"', 'bot');
+    }
+}
+
+function addChatMessageHTML(sender, html) {
+    const messagesContainer = document.getElementById('chat-messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `chat-message ${sender}`;
+
+    const avatar = sender === 'bot' ? '🤖' : '👤';
+    const time = new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+
+    messageDiv.innerHTML = `
+        <span class="message-avatar">${avatar}</span>
+        <div class="message-content">
+            <div>${html}</div>
+            <span class="message-time">${time}</span>
+        </div>
+    `;
+
+    messagesContainer.appendChild(messageDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function addMercadoStyles() {
+    if (document.getElementById('mercado-styles')) return;
+
+    const styles = document.createElement('style');
+    styles.id = 'mercado-styles';
+    styles.textContent = `
+        .mercado-btn {
+            display: block;
+            width: 100%;
+            padding: 10px 15px;
+            margin: 5px 0;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .mercado-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        .mercado-loading {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .mercado-spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid #ffffff33;
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .mercado-download-btn {
+            display: inline-block;
+            padding: 12px 20px;
+            margin-top: 10px;
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            border: none;
+            border-radius: 8px;
+            color: #1a1a2e;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s;
+        }
+        .mercado-download-btn:hover {
+            transform: scale(1.05);
+        }
+    `;
+    document.head.appendChild(styles);
+}
+
+// MERCADO FINANCIERO
+async function fetchMercadoFinanciero() {
+    addChatMessageHTML('bot', `
+        <div class="mercado-loading">
+            <div class="mercado-spinner"></div>
+            <span>Obteniendo datos del mercado financiero...</span>
+        </div>
+    `);
+
+    try {
+        // Obtener datos de crypto (CoinGecko - no requiere API key)
+        const cryptoData = await fetchCryptoData();
+
+        // Generar y descargar reporte
+        const html = generateFinancieroHTML(cryptoData);
+        downloadHTML(html, 'mercado_financiero');
+
+        addChatMessageHTML('bot', `
+            <strong>✅ ¡Reporte generado!</strong><br><br>
+            📊 Se analizaron ${cryptoData.length} activos<br>
+            🔥 ${cryptoData.filter(d => Math.abs(d.cambio) > 2).length} oportunidades detectadas (cambio > 2%)<br><br>
+            <em>El archivo se descargó automáticamente.</em>
+        `);
+    } catch (error) {
+        console.error('Error:', error);
+        addChatMessage('❌ Error al obtener datos. Intenta de nuevo más tarde.', 'bot');
+    }
+}
+
+async function fetchCryptoData() {
+    const response = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=15&page=1&sparkline=false&price_change_percentage=24h');
+    const data = await response.json();
+
+    return data.map(coin => ({
+        simbolo: coin.symbol.toUpperCase(),
+        nombre: coin.name,
+        precio: coin.current_price,
+        cambio: coin.price_change_percentage_24h || 0,
+        tipo: coin.price_change_percentage_24h > 0 ? '📈 SUBIDA' : '📉 BAJADA',
+        imagen: coin.image,
+        marketCap: coin.market_cap
+    }));
+}
+
+function generateFinancieroHTML(datos) {
+    const fecha = new Date().toLocaleString('es-ES');
+    const oportunidades = datos.filter(d => Math.abs(d.cambio) > 2);
+
+    let html = `<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oportunidades del Mercado - ${fecha}</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #eee;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .header h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .stat {
+            text-align: center;
+            background: #ffffff11;
+            padding: 20px 30px;
+            border-radius: 10px;
+        }
+        .stat-value { font-size: 2em; font-weight: bold; color: #667eea; }
+        .section-title {
+            font-size: 1.5em;
+            margin: 30px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .card {
+            background: #16213e;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+        .card.subida { border-left-color: #00ff88; }
+        .card.bajada { border-left-color: #ff4757; }
+        .card.oportunidad { box-shadow: 0 0 20px rgba(102, 126, 234, 0.3); }
+        .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .card-header img { width: 32px; height: 32px; border-radius: 50%; }
+        .simbolo { font-size: 1.3em; font-weight: bold; }
+        .nombre { font-size: 0.9em; opacity: 0.7; }
+        .precio { font-size: 1.8em; font-weight: bold; margin: 10px 0; }
+        .cambio { font-size: 1.2em; font-weight: bold; }
+        .positivo { color: #00ff88; }
+        .negativo { color: #ff4757; }
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            margin-top: 10px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Oportunidades del Mercado Crypto</h1>
+            <p>Generado: ${fecha}</p>
+        </div>
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value">${datos.length}</div>
+                <div class="stat-label">Activos analizados</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">${oportunidades.length}</div>
+                <div class="stat-label">Oportunidades (>2%)</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">${datos.filter(d => d.cambio > 0).length}</div>
+                <div class="stat-label">En subida</div>
+            </div>
+        </div>`;
+
+    if (oportunidades.length > 0) {
+        html += `<h2 class="section-title">🔥 Oportunidades Detectadas</h2><div class="grid">`;
+        oportunidades.forEach(op => {
+            const clase = op.cambio > 0 ? 'subida' : 'bajada';
+            const claseColor = op.cambio > 0 ? 'positivo' : 'negativo';
+            const signo = op.cambio > 0 ? '+' : '';
+            html += `
+                <div class="card ${clase} oportunidad">
+                    <div class="card-header">
+                        <img src="${op.imagen}" alt="${op.nombre}">
+                        <div>
+                            <div class="simbolo">${op.simbolo}</div>
+                            <div class="nombre">${op.nombre}</div>
+                        </div>
+                    </div>
+                    <div class="precio">$${op.precio.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
+                    <div class="cambio ${claseColor}">${signo}${op.cambio.toFixed(2)}%</div>
+                    <span class="badge">🔥 OPORTUNIDAD</span>
+                </div>`;
+        });
+        html += `</div>`;
+    }
+
+    html += `<h2 class="section-title">📊 Todos los Activos</h2><div class="grid">`;
+    datos.forEach(op => {
+        const clase = op.cambio > 0 ? 'subida' : 'bajada';
+        const claseColor = op.cambio > 0 ? 'positivo' : 'negativo';
+        const signo = op.cambio > 0 ? '+' : '';
+        html += `
+            <div class="card ${clase}">
+                <div class="card-header">
+                    <img src="${op.imagen}" alt="${op.nombre}">
+                    <div>
+                        <div class="simbolo">${op.simbolo}</div>
+                        <div class="nombre">${op.nombre}</div>
+                    </div>
+                </div>
+                <div class="precio">$${op.precio.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
+                <div class="cambio ${claseColor}">${signo}${op.cambio.toFixed(2)}%</div>
+            </div>`;
+    });
+    html += `</div>`;
+
+    html += `
+        <div class="footer">
+            <p>📈 Datos de CoinGecko API</p>
+            <p>⚠️ Este reporte es informativo. No constituye asesoría financiera.</p>
+        </div>
+    </div>
+</body>
+</html>`;
+
+    return html;
+}
+
+// MERCADO LABORAL
+async function fetchMercadoLaboral() {
+    addChatMessageHTML('bot', `
+        <div class="mercado-loading">
+            <div class="mercado-spinner"></div>
+            <span>Buscando empleos remotos en Argentina...</span>
+        </div>
+    `);
+
+    try {
+        const empleos = await fetchEmpleos();
+        const html = generateLaboralHTML(empleos);
+        downloadHTML(html, 'empleos_remotos');
+
+        addChatMessageHTML('bot', `
+            <strong>✅ ¡Reporte generado!</strong><br><br>
+            💼 Se encontraron ${empleos.length} ofertas de trabajo<br>
+            🔍 Búsqueda: Automation Process | Remoto | Argentina/LATAM<br><br>
+            <em>El archivo se descargó automáticamente.</em>
+        `);
+    } catch (error) {
+        console.error('Error:', error);
+        addChatMessage('❌ Error al buscar empleos. Intenta de nuevo más tarde.', 'bot');
+    }
+}
+
+async function fetchEmpleos() {
+    const empleos = [];
+
+    try {
+        // Remotive API
+        const response = await fetch('https://remotive.com/api/remote-jobs?search=automation%20process&limit=20');
+        const data = await response.json();
+
+        data.jobs.forEach(job => {
+            const location = (job.candidate_required_location || '').toLowerCase();
+            if (location.includes('argentina') || location.includes('latam') ||
+                location.includes('latin america') || location.includes('worldwide') ||
+                location.includes('anywhere') || location.includes('south america')) {
+                empleos.push({
+                    titulo: job.title,
+                    empresa: job.company_name,
+                    ubicacion: job.candidate_required_location || 'Remoto',
+                    url: job.url,
+                    fecha: job.publication_date ? job.publication_date.slice(0, 10) : '',
+                    categoria: job.category || 'Tech',
+                    tipo: job.job_type || 'Full-time',
+                    logo: job.company_logo
+                });
+            }
+        });
+    } catch (e) {
+        console.error('Error Remotive:', e);
+    }
+
+    return empleos.slice(0, 15);
+}
+
+function generateLaboralHTML(empleos) {
+    const fecha = new Date().toLocaleString('es-ES');
+
+    let html = `<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Empleos Remotos - Automation Process - ${fecha}</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+            color: #eee;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .header {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #1a1a2e;
+        }
+        .header h1 { font-size: 2em; margin-bottom: 10px; }
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .filter-tag {
+            background: #38ef7d33;
+            color: #38ef7d;
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+        .stat {
+            text-align: center;
+            background: #ffffff11;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 200px;
+        }
+        .stat-value { font-size: 2.5em; font-weight: bold; color: #38ef7d; }
+        .job-card {
+            background: #16213e;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 4px solid #38ef7d;
+            margin-bottom: 15px;
+            transition: transform 0.3s;
+        }
+        .job-card:hover { transform: translateX(10px); }
+        .empresa { color: #38ef7d; font-size: 0.95em; margin-bottom: 5px; }
+        .titulo { font-size: 1.3em; font-weight: bold; margin-bottom: 10px; }
+        .detalles {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9em;
+            opacity: 0.8;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: #1a1a2e;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .btn:hover { transform: scale(1.05); }
+        .no-results {
+            text-align: center;
+            padding: 60px;
+            background: #16213e;
+            border-radius: 15px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💼 Empleos Remotos</h1>
+            <p>Automation Process | Argentina / LATAM</p>
+            <p style="margin-top: 10px;">Generado: ${fecha}</p>
+        </div>
+        <div class="filters">
+            <span class="filter-tag">🔍 Automation Process</span>
+            <span class="filter-tag">🌎 Remoto</span>
+            <span class="filter-tag">🇦🇷 Argentina / LATAM</span>
+        </div>
+        <div class="stat">
+            <div class="stat-value">${empleos.length}</div>
+            <div>Ofertas encontradas</div>
+        </div>`;
+
+    if (empleos.length > 0) {
+        empleos.forEach(emp => {
+            html += `
+                <div class="job-card">
+                    <div class="empresa">🏢 ${emp.empresa}</div>
+                    <div class="titulo">${emp.titulo}</div>
+                    <div class="detalles">
+                        <span>📍 ${emp.ubicacion}</span>
+                        <span>📅 ${emp.fecha}</span>
+                        <span>🏷️ ${emp.categoria}</span>
+                    </div>
+                    <a href="${emp.url}" target="_blank" class="btn">Ver oferta →</a>
+                </div>`;
+        });
+    } else {
+        html += `
+            <div class="no-results">
+                <h2>😔 No se encontraron empleos</h2>
+                <p>No hay ofertas con estos filtros en este momento.</p>
+            </div>`;
+    }
+
+    html += `
+        <div class="footer">
+            <p>💼 Datos de Remotive API</p>
+            <p>Búsqueda: Automation Process | Remoto | Argentina/LATAM</p>
+        </div>
+    </div>
+</body>
+</html>`;
+
+    return html;
+}
+
+// Descargar HTML
+function downloadHTML(html, prefix) {
+    const fecha = new Date().toISOString().slice(0, 19).replace(/[:-]/g, '').replace('T', '_');
+    const filename = `${prefix}_${fecha}.html`;
+
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
 }
 
 // Bot responses with comprehensive Vibe Coding best practices
