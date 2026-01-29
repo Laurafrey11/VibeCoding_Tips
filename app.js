@@ -409,27 +409,37 @@ function addMercadoStyles() {
     document.head.appendChild(styles);
 }
 
-// MERCADO FINANCIERO
+// MERCADO FINANCIERO - Acciones y ETFs
+const STOCK_SYMBOLS = [
+    // Acciones populares
+    'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA', 'META',
+    // ETFs populares
+    'SPY', 'QQQ', 'VTI', 'IWM', 'DIA'
+];
+
 async function fetchMercadoFinanciero() {
     addChatMessageHTML('bot', `
         <div class="mercado-loading">
             <div class="mercado-spinner"></div>
-            <span>Obteniendo datos del mercado financiero...</span>
+            <span>Obteniendo datos de acciones y ETFs...</span>
         </div>
     `);
 
     try {
-        // Obtener datos de crypto (CoinGecko - no requiere API key)
-        const cryptoData = await fetchCryptoData();
+        const stockData = await fetchStockData();
 
-        // Generar y descargar reporte
-        const html = generateFinancieroHTML(cryptoData);
+        if (stockData.length === 0) {
+            addChatMessage('❌ No se pudieron obtener datos. La API puede estar temporalmente no disponible.', 'bot');
+            return;
+        }
+
+        const html = generateFinancieroHTML(stockData);
         downloadHTML(html, 'mercado_financiero');
 
         addChatMessageHTML('bot', `
             <strong>✅ ¡Reporte generado!</strong><br><br>
-            📊 Se analizaron ${cryptoData.length} activos<br>
-            🔥 ${cryptoData.filter(d => Math.abs(d.cambio) > 2).length} oportunidades detectadas (cambio > 2%)<br><br>
+            📊 Se analizaron ${stockData.length} activos (acciones y ETFs)<br>
+            🔥 ${stockData.filter(d => Math.abs(d.cambio) > 2).length} oportunidades detectadas (cambio > 2%)<br><br>
             <em>El archivo se descargó automáticamente.</em>
         `);
     } catch (error) {
@@ -438,18 +448,26 @@ async function fetchMercadoFinanciero() {
     }
 }
 
-async function fetchCryptoData() {
-    const response = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=15&page=1&sparkline=false&price_change_percentage=24h');
+async function fetchStockData() {
+    const symbols = STOCK_SYMBOLS.join(',');
+    const yahooUrl = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${symbols}`;
+    const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(yahooUrl)}`;
+
+    const response = await fetch(proxyUrl);
     const data = await response.json();
 
-    return data.map(coin => ({
-        simbolo: coin.symbol.toUpperCase(),
-        nombre: coin.name,
-        precio: coin.current_price,
-        cambio: coin.price_change_percentage_24h || 0,
-        tipo: coin.price_change_percentage_24h > 0 ? '📈 SUBIDA' : '📉 BAJADA',
-        imagen: coin.image,
-        marketCap: coin.market_cap
+    if (!data.quoteResponse || !data.quoteResponse.result) {
+        throw new Error('Respuesta inválida de Yahoo Finance');
+    }
+
+    return data.quoteResponse.result.map(stock => ({
+        simbolo: stock.symbol,
+        nombre: stock.shortName || stock.longName || stock.symbol,
+        precio: stock.regularMarketPrice,
+        cambio: stock.regularMarketChangePercent || 0,
+        tipo: (stock.regularMarketChangePercent || 0) > 0 ? '📈 SUBIDA' : '📉 BAJADA',
+        marketCap: stock.marketCap,
+        categoria: stock.quoteType === 'ETF' ? 'ETF' : 'Acción'
     }));
 }
 
@@ -511,10 +529,16 @@ function generateFinancieroHTML(datos) {
         .card.subida { border-left-color: #00ff88; }
         .card.bajada { border-left-color: #ff4757; }
         .card.oportunidad { box-shadow: 0 0 20px rgba(102, 126, 234, 0.3); }
-        .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-        .card-header img { width: 32px; height: 32px; border-radius: 50%; }
-        .simbolo { font-size: 1.3em; font-weight: bold; }
-        .nombre { font-size: 0.9em; opacity: 0.7; }
+        .simbolo { font-size: 1.4em; font-weight: bold; }
+        .nombre { font-size: 0.9em; opacity: 0.7; margin-top: 2px; }
+        .categoria {
+            display: inline-block;
+            background: #667eea33;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            margin-top: 8px;
+        }
         .precio { font-size: 1.8em; font-weight: bold; margin: 10px 0; }
         .cambio { font-size: 1.2em; font-weight: bold; }
         .positivo { color: #00ff88; }
@@ -538,7 +562,7 @@ function generateFinancieroHTML(datos) {
 <body>
     <div class="container">
         <div class="header">
-            <h1>🚀 Oportunidades del Mercado Crypto</h1>
+            <h1>📈 Mercado Financiero - Acciones & ETFs</h1>
             <p>Generado: ${fecha}</p>
         </div>
         <div class="stats">
@@ -564,13 +588,9 @@ function generateFinancieroHTML(datos) {
             const signo = op.cambio > 0 ? '+' : '';
             html += `
                 <div class="card ${clase} oportunidad">
-                    <div class="card-header">
-                        <img src="${op.imagen}" alt="${op.nombre}">
-                        <div>
-                            <div class="simbolo">${op.simbolo}</div>
-                            <div class="nombre">${op.nombre}</div>
-                        </div>
-                    </div>
+                    <div class="simbolo">${op.simbolo}</div>
+                    <div class="nombre">${op.nombre}</div>
+                    <span class="categoria">${op.categoria}</span>
                     <div class="precio">$${op.precio.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
                     <div class="cambio ${claseColor}">${signo}${op.cambio.toFixed(2)}%</div>
                     <span class="badge">🔥 OPORTUNIDAD</span>
@@ -586,13 +606,9 @@ function generateFinancieroHTML(datos) {
         const signo = op.cambio > 0 ? '+' : '';
         html += `
             <div class="card ${clase}">
-                <div class="card-header">
-                    <img src="${op.imagen}" alt="${op.nombre}">
-                    <div>
-                        <div class="simbolo">${op.simbolo}</div>
-                        <div class="nombre">${op.nombre}</div>
-                    </div>
-                </div>
+                <div class="simbolo">${op.simbolo}</div>
+                <div class="nombre">${op.nombre}</div>
+                <span class="categoria">${op.categoria}</span>
                 <div class="precio">$${op.precio.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
                 <div class="cambio ${claseColor}">${signo}${op.cambio.toFixed(2)}%</div>
             </div>`;
@@ -601,7 +617,7 @@ function generateFinancieroHTML(datos) {
 
     html += `
         <div class="footer">
-            <p>📈 Datos de CoinGecko API</p>
+            <p>📈 Datos de Yahoo Finance</p>
             <p>⚠️ Este reporte es informativo. No constituye asesoría financiera.</p>
         </div>
     </div>
