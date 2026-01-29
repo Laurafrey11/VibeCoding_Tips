@@ -36,11 +36,10 @@ except ImportError:
 # Carpeta donde se guardan los reportes
 REPORTES_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'reportes')
 
-# Símbolos del mercado a monitorear
+# Símbolos del mercado a monitorear (sin criptomonedas)
 MARKET_SYMBOLS = {
     'acciones': ['AAPL', 'GOOGL', 'MSFT', 'AMZN', 'TSLA'],
-    'crypto': ['BTC-USD', 'ETH-USD', 'SOL-USD'],
-    'indices': ['^GSPC', '^DJI', '^IXIC']  # S&P 500, Dow Jones, NASDAQ
+    'indices': ['^XLV', '^EWZ', '^XLE']  # S&P 500, Dow Jones, NASDAQ
 }
 
 
