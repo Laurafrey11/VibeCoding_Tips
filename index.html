@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Vibe Coding & Safe Use</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="logo">
+            <span class="logo-icon">🚀</span>
+            <span class="logo-text">Vibe Coding</span>
+        </div>
+        <ul class="nav-links">
+            <li>
+                <a href="#intro" class="nav-link active" data-section="intro">
+                    <span class="nav-icon">🏠</span>
+                    <span>Introducción</span>
+                </a>
+            </li>
+            <li>
+                <a href="#pasos" class="nav-link" data-section="pasos">
+                    <span class="nav-icon">📋</span>
+                    <span>Crear Apps con Claude</span>
+                </a>
+            </li>
+            <li>
+                <a href="#seguridad" class="nav-link" data-section="seguridad">
+                    <span class="nav-icon">🔒</span>
+                    <span>Uso Seguro</span>
+                </a>
+            </li>
+            <li>
+                <a href="#practicas" class="nav-link" data-section="practicas">
+                    <span class="nav-icon">✨</span>
+                    <span>Buenas Prácticas</span>
+                </a>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <p>Guía Interactiva v1.0</p>
+        </div>
+    </nav>
+
+    <main class="content">
+        <!-- Sección Introducción -->
+        <section id="intro" class="section active">
+            <div class="section-header">
+                <h1>Bienvenido a la Guía de Vibe Coding</h1>
+                <p class="subtitle">Aprende a crear aplicaciones de forma segura y eficiente con IA</p>
+            </div>
+
+            <div class="intro-cards">
+                <div class="intro-card">
+                    <div class="card-icon">💡</div>
+                    <h3>¿Qué es Vibe Coding?</h3>
+                    <p>Vibe Coding es un enfoque de desarrollo donde colaboras con IA para crear software. Describes lo que quieres en lenguaje natural y la IA te ayuda a construirlo paso a paso.</p>
+                </div>
+                <div class="intro-card">
+                    <div class="card-icon">🛡️</div>
+                    <h3>¿Por qué Safe Use?</h3>
+                    <p>Es fundamental entender las políticas de seguridad, revisar el código generado y mantener el control sobre los permisos para desarrollar de manera responsable.</p>
+                </div>
+                <div class="intro-card">
+                    <div class="card-icon">🎯</div>
+                    <h3>Objetivo de esta Guía</h3>
+                    <p>Proporcionar un marco claro para crear aplicaciones con Claude, siguiendo las mejores prácticas de seguridad y desarrollo ágil.</p>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <button class="cta-button" onclick="navigateTo('pasos')">
+                    Comenzar el Recorrido →
+                </button>
+            </div>
+        </section>
+
+        <!-- Sección 1: Pasos para crear apps -->
+        <section id="pasos" class="section">
+            <div class="section-header">
+                <h1>Pasos para Crear Apps con Claude</h1>
+                <p class="subtitle">Del concepto al producto en 4 fases</p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item" data-step="1">
+                    <div class="timeline-marker">1</div>
+                    <div class="timeline-content">
+                        <h3>💡 Idea</h3>
+                        <p>Define claramente qué problema quieres resolver. Describe tu visión en términos simples.</p>
+                        <div class="example-box">
+                            <strong>Ejemplo:</strong>
+                            <p>"Quiero una app para gestionar tareas con recordatorios"</p>
+                        </div>
+                        <ul class="checklist">
+                            <li>Identifica el problema principal</li>
+                            <li>Define tu audiencia objetivo</li>
+                            <li>Lista las funcionalidades clave</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item" data-step="2">
+                    <div class="timeline-marker">2</div>
+                    <div class="timeline-content">
+                        <h3>📄 PRD (Product Requirements Document)</h3>
+                        <p>Crea un documento estructurado con los requisitos detallados de tu aplicación.</p>
+                        <div class="example-box">
+                            <strong>Pide a Claude:</strong>
+                            <p>"Ayúdame a crear un PRD para mi app de tareas con estas funcionalidades..."</p>
+                        </div>
+                        <ul class="checklist">
+                            <li>Descripción del producto</li>
+                            <li>User stories principales</li>
+                            <li>Requisitos técnicos</li>
+                            <li>Criterios de aceptación</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item" data-step="3">
+                    <div class="timeline-marker">3</div>
+                    <div class="timeline-content">
+                        <h3>🎨 Prototipo</h3>
+                        <p>Construye una versión inicial funcional. Enfócate en las características principales.</p>
+                        <div class="example-box">
+                            <strong>Enfoque MVP:</strong>
+                            <p>Comienza con lo esencial. Una lista de tareas básica antes de añadir recordatorios.</p>
+                        </div>
+                        <ul class="checklist">
+                            <li>Implementa funcionalidades core</li>
+                            <li>Mantén el código simple</li>
+                            <li>Prueba cada componente</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item" data-step="4">
+                    <div class="timeline-marker">4</div>
+                    <div class="timeline-content">
+                        <h3>🔄 Iteración</h3>
+                        <p>Mejora continuamente basándote en pruebas y feedback. Añade funcionalidades gradualmente.</p>
+                        <div class="example-box">
+                            <strong>Ciclo de mejora:</strong>
+                            <p>Probar → Identificar mejoras → Implementar → Repetir</p>
+                        </div>
+                        <ul class="checklist">
+                            <li>Recopila feedback</li>
+                            <li>Prioriza mejoras</li>
+                            <li>Documenta cambios</li>
+                            <li>Mantén versiones estables</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 2: Políticas de uso seguro -->
+        <section id="seguridad" class="section">
+            <div class="section-header">
+                <h1>Políticas de Uso Seguro</h1>
+                <p class="subtitle">Mantén el control y la seguridad en tu desarrollo</p>
+            </div>
+
+            <div class="security-grid">
+                <div class="security-card">
+                    <div class="security-icon">🔐</div>
+                    <h3>Manejo de Permisos</h3>
+                    <div class="security-content">
+                        <p>Claude Code solicita permisos antes de ejecutar acciones potencialmente sensibles.</p>
+
+                        <div class="permission-levels">
+                            <div class="permission-item safe">
+                                <span class="permission-badge">Seguro</span>
+                                <p>Lectura de archivos, búsquedas en código</p>
+                            </div>
+                            <div class="permission-item caution">
+                                <span class="permission-badge">Precaución</span>
+                                <p>Escritura de archivos, instalación de dependencias</p>
+                            </div>
+                            <div class="permission-item danger">
+                                <span class="permission-badge">Revisar</span>
+                                <p>Comandos de sistema, operaciones de red</p>
+                            </div>
+                        </div>
+
+                        <div class="tip-box">
+                            <strong>💡 Tip:</strong> Siempre revisa los permisos solicitados antes de aprobarlos.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="security-card">
+                    <div class="security-icon">👁️</div>
+                    <h3>Revisión de Comandos</h3>
+                    <div class="security-content">
+                        <p>Antes de ejecutar cualquier comando, Claude te muestra exactamente qué hará.</p>
+
+                        <div class="code-review">
+                            <div class="code-header">Comando propuesto:</div>
+                            <pre><code>npm install express --save</code></pre>
+                            <div class="review-actions">
+                                <span class="action-approve">✓ Aprobar</span>
+                                <span class="action-reject">✗ Rechazar</span>
+                                <span class="action-modify">✎ Modificar</span>
+                            </div>
+                        </div>
+
+                        <ul class="review-checklist">
+                            <li>Lee cada comando antes de aprobar</li>
+                            <li>Verifica que los paths sean correctos</li>
+                            <li>Entiende qué cambios se realizarán</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="security-card full-width">
+                    <div class="security-icon">📦</div>
+                    <h3>Entorno Sandbox</h3>
+                    <div class="security-content">
+                        <p>El sandbox proporciona un entorno aislado que limita las acciones que pueden realizarse.</p>
+
+                        <div class="sandbox-features">
+                            <div class="sandbox-item">
+                                <h4>🚫 Restricciones</h4>
+                                <ul>
+                                    <li>No puede acceder a archivos fuera del proyecto</li>
+                                    <li>Comandos destructivos requieren confirmación</li>
+                                    <li>No ejecuta código sin revisión previa</li>
+                                </ul>
+                            </div>
+                            <div class="sandbox-item">
+                                <h4>✅ Permitido</h4>
+                                <ul>
+                                    <li>Lectura y escritura en el directorio del proyecto</li>
+                                    <li>Ejecución de tests y builds</li>
+                                    <li>Instalación de dependencias aprobadas</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="warning-box">
+                            <strong>⚠️ Importante:</strong> Nunca desactives el sandbox a menos que entiendas completamente las implicaciones de seguridad.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 3: Buenas Prácticas -->
+        <section id="practicas" class="section">
+            <div class="section-header">
+                <h1>Buenas Prácticas</h1>
+                <p class="subtitle">Desarrollo de calidad con asistencia de IA</p>
+            </div>
+
+            <div class="practices-container">
+                <div class="practice-card featured">
+                    <div class="practice-header">
+                        <span class="practice-icon">🧪</span>
+                        <h3>Test-Driven Development (TDD) con IA</h3>
+                    </div>
+                    <div class="practice-content">
+                        <p>El TDD asistido por IA combina la metodología tradicional con la capacidad de Claude para generar y mejorar tests.</p>
+
+                        <div class="tdd-cycle">
+                            <div class="tdd-step red">
+                                <span class="step-number">1</span>
+                                <h4>🔴 Red</h4>
+                                <p>Escribe un test que falle</p>
+                                <div class="code-snippet">
+                                    <code>test('suma dos números', () => {
+  expect(suma(2, 3)).toBe(5);
+});</code>
+                                </div>
+                            </div>
+                            <div class="tdd-step green">
+                                <span class="step-number">2</span>
+                                <h4>🟢 Green</h4>
+                                <p>Implementa el código mínimo</p>
+                                <div class="code-snippet">
+                                    <code>function suma(a, b) {
+  return a + b;
+}</code>
+                                </div>
+                            </div>
+                            <div class="tdd-step refactor">
+                                <span class="step-number">3</span>
+                                <h4>🔵 Refactor</h4>
+                                <p>Mejora sin romper tests</p>
+                                <div class="code-snippet">
+                                    <code>const suma = (a, b) => a + b;</code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ai-assist-box">
+                            <h4>🤖 ¿Cómo ayuda Claude?</h4>
+                            <ul>
+                                <li>Genera casos de prueba edge cases</li>
+                                <li>Sugiere tests para cobertura completa</li>
+                                <li>Identifica código sin testear</li>
+                                <li>Propone refactorizaciones seguras</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="practice-card">
+                    <div class="practice-header">
+                        <span class="practice-icon">📝</span>
+                        <h3>Prompts Efectivos</h3>
+                    </div>
+                    <div class="practice-content">
+                        <div class="prompt-comparison">
+                            <div class="prompt bad">
+                                <span class="prompt-label">❌ Vago</span>
+                                <p>"Haz una función de login"</p>
+                            </div>
+                            <div class="prompt good">
+                                <span class="prompt-label">✅ Específico</span>
+                                <p>"Crea una función de login que valide email y contraseña, retorne un JWT token, y maneje errores de credenciales inválidas"</p>
+                            </div>
+                        </div>
+                        <ul class="tips-list">
+                            <li>Sé específico sobre inputs y outputs</li>
+                            <li>Menciona el manejo de errores esperado</li>
+                            <li>Indica el estilo de código preferido</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="practice-card">
+                    <div class="practice-header">
+                        <span class="practice-icon">🔍</span>
+                        <h3>Revisión de Código</h3>
+                    </div>
+                    <div class="practice-content">
+                        <p>Siempre revisa el código generado antes de integrarlo.</p>
+                        <div class="review-steps">
+                            <div class="review-step">
+                                <span>1</span>
+                                <p>Entiende la lógica</p>
+                            </div>
+                            <div class="review-step">
+                                <span>2</span>
+                                <p>Verifica seguridad</p>
+                            </div>
+                            <div class="review-step">
+                                <span>3</span>
+                                <p>Ejecuta los tests</p>
+                            </div>
+                            <div class="review-step">
+                                <span>4</span>
+                                <p>Prueba manualmente</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="practice-card">
+                    <div class="practice-header">
+                        <span class="practice-icon">📚</span>
+                        <h3>Documentación Continua</h3>
+                    </div>
+                    <div class="practice-content">
+                        <p>Pide a Claude que documente mientras desarrolla.</p>
+                        <ul class="doc-checklist">
+                            <li>README actualizado</li>
+                            <li>Comentarios en código complejo</li>
+                            <li>Documentación de API</li>
+                            <li>Guías de contribución</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="final-tips">
+                <h3>🎯 Resumen de Buenas Prácticas</h3>
+                <div class="tips-grid">
+                    <div class="tip-item">
+                        <span class="tip-number">01</span>
+                        <p>Empieza con tests</p>
+                    </div>
+                    <div class="tip-item">
+                        <span class="tip-number">02</span>
+                        <p>Revisa todo el código</p>
+                    </div>
+                    <div class="tip-item">
+                        <span class="tip-number">03</span>
+                        <p>Itera en pequeños pasos</p>
+                    </div>
+                    <div class="tip-item">
+                        <span class="tip-number">04</span>
+                        <p>Documenta decisiones</p>
+                    </div>
+                    <div class="tip-item">
+                        <span class="tip-number">05</span>
+                        <p>Mantén el sandbox activo</p>
+                    </div>
+                    <div class="tip-item">
+                        <span class="tip-number">06</span>
+                        <p>Aprende de cada iteración</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
