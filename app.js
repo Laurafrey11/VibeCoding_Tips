@@ -195,7 +195,7 @@ document.querySelectorAll('.nav-link').forEach(link => {
 
 // Keyboard navigation
 document.addEventListener('keydown', (e) => {
-    const sections = ['intro', 'pasos', 'seguridad', 'practicas', 'documentacion'];
+    const sections = ['intro', 'pasos', 'seguridad', 'practicas', 'documentacion', 'errores'];
     const currentSection = document.querySelector('.section.active').id;
     const currentIndex = sections.indexOf(currentSection);
 

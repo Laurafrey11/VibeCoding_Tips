@@ -1314,6 +1314,608 @@ body {
     margin: 0;
 }
 
+/* Errors Section */
+.error-intro {
+    margin-bottom: 3rem;
+}
+
+.error-intro-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.error-stat {
+    text-align: center;
+    padding: 1.5rem 2rem;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    min-width: 180px;
+}
+
+.error-stat-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent-red), var(--accent-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.error-stat-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Error Cards */
+.error-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+
+.error-card-header {
+    padding: 1.5rem 2rem;
+    background-color: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.error-severity {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.875rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+.error-severity.critical {
+    background-color: rgba(248, 81, 73, 0.2);
+    color: var(--accent-red);
+}
+
+.error-severity.high {
+    background-color: rgba(248, 81, 73, 0.15);
+    color: #ff6b6b;
+}
+
+.error-severity.medium {
+    background-color: rgba(210, 153, 34, 0.2);
+    color: var(--accent-yellow);
+}
+
+.error-card-header h2 {
+    font-size: 1.375rem;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.error-card-body {
+    padding: 2rem;
+}
+
+.error-description {
+    margin-bottom: 2rem;
+}
+
+.error-description h3,
+.error-solution h3,
+.error-consequences h3,
+.error-symptoms h3,
+.error-template h3 {
+    font-size: 1.125rem;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+}
+
+.error-description p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Error Examples */
+.error-example {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.example-bad,
+.example-good {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.example-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.example-header.bad {
+    background-color: rgba(248, 81, 73, 0.2);
+    color: var(--accent-red);
+}
+
+.example-header.good {
+    background-color: rgba(63, 185, 80, 0.2);
+    color: var(--accent-green);
+}
+
+.example-content {
+    background-color: var(--bg-tertiary);
+    padding: 1rem;
+}
+
+.example-content code,
+.example-content pre {
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.example-content pre {
+    margin: 0;
+}
+
+.example-result {
+    padding: 0.75rem 1rem;
+    background-color: var(--bg-secondary);
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border-color);
+}
+
+.example-result strong {
+    color: var(--text-primary);
+}
+
+/* Solution Steps */
+.solution-steps {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.solution-step {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: var(--bg-tertiary);
+    border-radius: 8px;
+}
+
+.step-num {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.875rem;
+    color: white;
+    flex-shrink: 0;
+}
+
+.step-content h4 {
+    font-size: 0.9375rem;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.step-content p {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* Template Box */
+.error-template {
+    margin-top: 2rem;
+}
+
+.template-box {
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.25rem;
+}
+
+.template-box pre {
+    margin: 0;
+}
+
+.template-box code {
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    white-space: pre-wrap;
+}
+
+/* Consequences Grid */
+.consequences-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.consequence-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background-color: rgba(248, 81, 73, 0.1);
+    border-radius: 8px;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.consequence-icon {
+    font-size: 1.25rem;
+}
+
+/* Checklist Visual */
+.checklist-visual {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.checklist-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: var(--bg-tertiary);
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+.checklist-item:hover {
+    background-color: var(--bg-secondary);
+}
+
+.check-icon {
+    font-size: 1.25rem;
+    color: var(--accent-blue);
+}
+
+.check-content h4 {
+    font-size: 0.9375rem;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.check-content p {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* Symptoms List */
+.symptoms-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+}
+
+.symptoms-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background-color: var(--bg-tertiary);
+    border-radius: 8px;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.symptom-icon {
+    font-size: 1.125rem;
+}
+
+/* Solution Cards */
+.solution-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.solution-card {
+    padding: 1.25rem;
+    background-color: var(--bg-tertiary);
+    border-radius: 12px;
+    transition: var(--transition);
+}
+
+.solution-card:hover {
+    transform: translateY(-4px);
+    border: 1px solid var(--accent-blue);
+}
+
+.solution-card-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+}
+
+.solution-card h4 {
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.solution-card p {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+}
+
+.solution-example {
+    background-color: var(--bg-secondary);
+    padding: 0.75rem;
+    border-radius: 6px;
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 0.75rem;
+    color: var(--accent-green);
+    white-space: pre-wrap;
+}
+
+/* Avoid Tips */
+.avoid-tips {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.avoid-tip {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background-color: var(--bg-tertiary);
+    border-radius: 8px;
+    border-left: 3px solid var(--accent-green);
+}
+
+.tip-icon {
+    font-size: 1.5rem;
+}
+
+.avoid-tip h4 {
+    font-size: 0.9375rem;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.avoid-tip p {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* Vulnerability Grid */
+.vulnerability-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.vulnerability-item {
+    background-color: var(--bg-tertiary);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.vuln-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.vuln-icon {
+    font-size: 1.25rem;
+}
+
+.vuln-header h4 {
+    font-size: 0.9375rem;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.vuln-bad,
+.vuln-good {
+    padding: 0.75rem 1rem;
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 0.75rem;
+}
+
+.vuln-bad {
+    background-color: rgba(248, 81, 73, 0.1);
+    color: var(--accent-red);
+    border-left: 3px solid var(--accent-red);
+}
+
+.vuln-good {
+    background-color: rgba(63, 185, 80, 0.1);
+    color: var(--accent-green);
+    border-left: 3px solid var(--accent-green);
+}
+
+/* Security Prompt Box */
+.security-prompt-box {
+    background: linear-gradient(135deg, rgba(248, 81, 73, 0.1), rgba(210, 153, 34, 0.1));
+    border: 1px solid rgba(248, 81, 73, 0.3);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.security-prompt-box > p {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+/* TDD Flow */
+.tdd-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.tdd-flow-step {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background-color: var(--bg-tertiary);
+    border-radius: 12px;
+    max-width: 280px;
+}
+
+.flow-step-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.875rem;
+    color: white;
+    flex-shrink: 0;
+}
+
+.flow-step-num.red {
+    background-color: var(--accent-red);
+}
+
+.flow-step-num.green {
+    background-color: var(--accent-green);
+}
+
+.flow-step-num.blue {
+    background-color: var(--accent-blue);
+}
+
+.flow-step-content h4 {
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.flow-step-content code {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.tdd-flow-arrow {
+    font-size: 1.5rem;
+    color: var(--accent-blue);
+}
+
+/* Test Types */
+.test-types {
+    background-color: var(--bg-tertiary);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.test-types h4 {
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.test-type-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+}
+
+.test-type {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background-color: var(--bg-secondary);
+    border-radius: 6px;
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+}
+
+/* Quick Reference */
+.error-quick-reference {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-top: 2rem;
+}
+
+.error-quick-reference h2 {
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.quick-ref-table {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.quick-ref-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    background-color: var(--bg-tertiary);
+    border-radius: 8px;
+    align-items: center;
+}
+
+.quick-ref-row.header {
+    background-color: var(--bg-secondary);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.quick-ref-cell {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.quick-ref-cell code {
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 0.75rem;
+    background-color: var(--bg-secondary);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    color: var(--accent-green);
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
     .content {
@@ -1352,6 +1954,48 @@ body {
 
     .doc-workflow-arrow {
         transform: rotate(90deg);
+    }
+
+    /* Errors responsive */
+    .error-example {
+        grid-template-columns: 1fr;
+    }
+
+    .solution-steps,
+    .consequences-grid,
+    .symptoms-list,
+    .vulnerability-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .solution-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .tdd-flow {
+        flex-direction: column;
+    }
+
+    .tdd-flow-arrow {
+        transform: rotate(90deg);
+    }
+
+    .test-type-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .quick-ref-row {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+
+    .quick-ref-row.header {
+        display: none;
+    }
+
+    .quick-ref-cell:first-child {
+        font-weight: 600;
+        color: var(--text-primary);
     }
 }
 
@@ -1399,6 +2043,31 @@ body {
 
     .folder-item.nested {
         margin-left: 1rem;
+    }
+
+    /* Errors mobile */
+    .error-intro-stats {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .error-stat {
+        width: 100%;
+        max-width: 250px;
+    }
+
+    .error-card-body {
+        padding: 1.25rem;
+    }
+
+    .test-type-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tdd-flow-step {
+        flex-direction: column;
+        text-align: center;
+        max-width: 100%;
     }
 }
 

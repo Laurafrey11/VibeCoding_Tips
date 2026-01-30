@@ -16,6 +16,29 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/lang/es/).
 
 ---
 
+## [1.3.0] - 2024-01-30
+
+### Agregado
+- Nueva sección "Errores Comunes" con 7 errores detallados:
+  - Error #1: Prompts vagos o incompletos
+  - Error #2: No revisar el código generado
+  - Error #3: Pérdida de contexto en conversaciones largas
+  - Error #4: Over-engineering (código excesivamente complejo)
+  - Error #5: Problemas de dependencias y versiones
+  - Error #6: Vulnerabilidades de seguridad (OWASP Top 10)
+  - Error #7: No pedir tests
+- Ejemplos de código malo vs código bueno para cada error
+- Templates de prompts para prevención
+- Tabla de referencia rápida con frases clave
+- Checklist de revisión de seguridad
+- Flujo visual de TDD con IA
+
+### Cambiado
+- Navegación actualizada con nueva sección
+- Versión en footer actualizada a 1.3
+
+---
+
 ## [1.2.0] - 2024-01-30
 
 ### Agregado

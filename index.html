@@ -43,9 +43,15 @@
                     <span>Documentación</span>
                 </a>
             </li>
+            <li>
+                <a href="#errores" class="nav-link" data-section="errores">
+                    <span class="nav-icon">⚠️</span>
+                    <span>Errores Comunes</span>
+                </a>
+            </li>
         </ul>
         <div class="sidebar-footer">
-            <p>Guía Interactiva v1.2</p>
+            <p>Guía Interactiva v1.3</p>
         </div>
     </nav>
 
@@ -759,6 +765,687 @@
                             <h4>Actualiza docs con cada cambio</h4>
                             <p>Documentación desactualizada = deuda técnica</p>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 6: Errores Comunes -->
+        <section id="errores" class="section">
+            <div class="section-header">
+                <h1>Errores Comunes en Vibe Coding</h1>
+                <p class="subtitle">Identifica, previene y soluciona los problemas más frecuentes</p>
+            </div>
+
+            <!-- Intro de Errores -->
+            <div class="error-intro">
+                <div class="error-intro-stats">
+                    <div class="error-stat">
+                        <span class="error-stat-number">70%</span>
+                        <span class="error-stat-label">de errores son por prompts vagos</span>
+                    </div>
+                    <div class="error-stat">
+                        <span class="error-stat-number">25%</span>
+                        <span class="error-stat-label">por no revisar el código</span>
+                    </div>
+                    <div class="error-stat">
+                        <span class="error-stat-number">5%</span>
+                        <span class="error-stat-label">otros problemas técnicos</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error 1: Prompts Vagos -->
+            <div class="error-card" data-severity="high">
+                <div class="error-card-header">
+                    <div class="error-severity high">
+                        <span class="severity-icon">🔴</span>
+                        <span class="severity-text">Alta Frecuencia</span>
+                    </div>
+                    <h2>Error #1: Prompts Vagos o Incompletos</h2>
+                </div>
+                <div class="error-card-body">
+                    <div class="error-description">
+                        <h3>🔍 El Problema</h3>
+                        <p>Dar instrucciones ambiguas a la IA resulta en código que no cumple las expectativas, requiere múltiples iteraciones o tiene bugs ocultos.</p>
+                    </div>
+
+                    <div class="error-example">
+                        <div class="example-bad">
+                            <div class="example-header bad">
+                                <span>❌</span> Prompt Malo
+                            </div>
+                            <div class="example-content">
+                                <code>"Haz una función de login"</code>
+                            </div>
+                            <div class="example-result">
+                                <strong>Resultado:</strong> Función básica sin validación, sin manejo de errores, sin seguridad.
+                            </div>
+                        </div>
+                        <div class="example-good">
+                            <div class="example-header good">
+                                <span>✅</span> Prompt Correcto
+                            </div>
+                            <div class="example-content">
+                                <code>"Crea una función de login en JavaScript que:
+1. Valide formato de email con regex
+2. Verifique contraseña mínimo 8 caracteres, 1 mayúscula, 1 número
+3. Retorne {success: boolean, message: string, token?: string}
+4. Maneje errores: email inválido, contraseña débil, credenciales incorrectas
+5. Use async/await para llamadas a API
+6. No guarde datos sensibles en localStorage"</code>
+                            </div>
+                            <div class="example-result">
+                                <strong>Resultado:</strong> Función completa, segura y lista para producción.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="error-solution">
+                        <h3>✅ Cómo Solucionarlo</h3>
+                        <div class="solution-steps">
+                            <div class="solution-step">
+                                <span class="step-num">1</span>
+                                <div class="step-content">
+                                    <h4>Usa la estructura CTRE</h4>
+                                    <p><strong>C</strong>ontexto + <strong>T</strong>area + <strong>R</strong>equisitos + <strong>E</strong>jemplos</p>
+                                </div>
+                            </div>
+                            <div class="solution-step">
+                                <span class="step-num">2</span>
+                                <div class="step-content">
+                                    <h4>Define inputs y outputs</h4>
+                                    <p>Especifica qué recibe y qué retorna la función</p>
+                                </div>
+                            </div>
+                            <div class="solution-step">
+                                <span class="step-num">3</span>
+                                <div class="step-content">
+                                    <h4>Lista los casos de error</h4>
+                                    <p>¿Qué pasa si falla? ¿Qué errores manejar?</p>
+                                </div>
+                            </div>
+                            <div class="solution-step">
+                                <span class="step-num">4</span>
+                                <div class="step-content">
+                                    <h4>Menciona restricciones</h4>
+                                    <p>Dependencias, estilo de código, limitaciones</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="error-template">
+                        <h3>📋 Template de Prompt</h3>
+                        <div class="template-box">
+                            <pre><code>**Contexto:** [Descripción del proyecto/situación actual]
+
+**Tarea:** [Qué necesito que hagas específicamente]
+
+**Requisitos:**
+- [Requisito funcional 1]
+- [Requisito funcional 2]
+- [Manejo de errores esperado]
+
+**Restricciones:**
+- [Tecnologías a usar/evitar]
+- [Patrones de código]
+- [Limitaciones]
+
+**Output esperado:** [Formato de respuesta]</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error 2: No Revisar Código -->
+            <div class="error-card" data-severity="critical">
+                <div class="error-card-header">
+                    <div class="error-severity critical">
+                        <span class="severity-icon">⛔</span>
+                        <span class="severity-text">Crítico</span>
+                    </div>
+                    <h2>Error #2: No Revisar el Código Generado</h2>
+                </div>
+                <div class="error-card-body">
+                    <div class="error-description">
+                        <h3>🔍 El Problema</h3>
+                        <p>Copiar y pegar código de la IA sin revisarlo puede introducir bugs, vulnerabilidades de seguridad, o código que no se integra bien con tu proyecto.</p>
+                    </div>
+
+                    <div class="error-consequences">
+                        <h3>⚠️ Consecuencias</h3>
+                        <div class="consequences-grid">
+                            <div class="consequence-item">
+                                <span class="consequence-icon">🐛</span>
+                                <span>Bugs ocultos en edge cases</span>
+                            </div>
+                            <div class="consequence-item">
+                                <span class="consequence-icon">🔓</span>
+                                <span>Vulnerabilidades de seguridad</span>
+                            </div>
+                            <div class="consequence-item">
+                                <span class="consequence-icon">💥</span>
+                                <span>Conflictos con código existente</span>
+                            </div>
+                            <div class="consequence-item">
+                                <span class="consequence-icon">📈</span>
+                                <span>Deuda técnica acumulada</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="error-example">
+                        <div class="example-bad">
+                            <div class="example-header bad">
+                                <span>❌</span> Código Peligroso (no revisado)
+                            </div>
+                            <div class="example-content">
+                                <pre><code>// La IA generó esto para "mostrar datos del usuario"
+app.get('/user/:id', (req, res) => {
+    const query = `SELECT * FROM users WHERE id = ${req.params.id}`;
+    db.query(query, (err, result) => {
+        res.json(result);
+    });
+});</code></pre>
+                            </div>
+                            <div class="example-result">
+                                <strong>Problema:</strong> SQL Injection! Un atacante puede enviar <code>1; DROP TABLE users;</code>
+                            </div>
+                        </div>
+                        <div class="example-good">
+                            <div class="example-header good">
+                                <span>✅</span> Código Corregido (después de revisar)
+                            </div>
+                            <div class="example-content">
+                                <pre><code>// Versión segura con prepared statements
+app.get('/user/:id', (req, res) => {
+    const userId = parseInt(req.params.id);
+    if (isNaN(userId)) {
+        return res.status(400).json({ error: 'ID inválido' });
+    }
+    const query = 'SELECT id, name, email FROM users WHERE id = ?';
+    db.query(query, [userId], (err, result) => {
+        if (err) return res.status(500).json({ error: 'Error de servidor' });
+        if (!result.length) return res.status(404).json({ error: 'Usuario no encontrado' });
+        res.json(result[0]);
+    });
+});</code></pre>
+                            </div>
+                            <div class="example-result">
+                                <strong>Mejoras:</strong> Validación, prepared statements, manejo de errores, campos limitados.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="error-solution">
+                        <h3>✅ Checklist de Revisión</h3>
+                        <div class="checklist-visual">
+                            <div class="checklist-item">
+                                <span class="check-icon">☐</span>
+                                <div class="check-content">
+                                    <h4>1. ¿Entiendo qué hace?</h4>
+                                    <p>Si no puedes explicarlo, no lo uses</p>
+                                </div>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="check-icon">☐</span>
+                                <div class="check-content">
+                                    <h4>2. ¿Hay datos de usuario sin validar?</h4>
+                                    <p>Busca: req.params, req.body, req.query, input, form</p>
+                                </div>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="check-icon">☐</span>
+                                <div class="check-content">
+                                    <h4>3. ¿Hay credenciales hardcodeadas?</h4>
+                                    <p>Busca: password, apiKey, secret, token, key</p>
+                                </div>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="check-icon">☐</span>
+                                <div class="check-content">
+                                    <h4>4. ¿Se manejan todos los errores?</h4>
+                                    <p>¿Qué pasa si falla la red, DB, o input inválido?</p>
+                                </div>
+                            </div>
+                            <div class="checklist-item">
+                                <span class="check-icon">☐</span>
+                                <div class="check-content">
+                                    <h4>5. ¿Funciona con mi código existente?</h4>
+                                    <p>Verifica imports, nombres, convenciones</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error 3: Pérdida de Contexto -->
+            <div class="error-card" data-severity="medium">
+                <div class="error-card-header">
+                    <div class="error-severity medium">
+                        <span class="severity-icon">🟡</span>
+                        <span class="severity-text">Media Frecuencia</span>
+                    </div>
+                    <h2>Error #3: Pérdida de Contexto en Conversaciones Largas</h2>
+                </div>
+                <div class="error-card-body">
+                    <div class="error-description">
+                        <h3>🔍 El Problema</h3>
+                        <p>En conversaciones largas, la IA puede "olvidar" decisiones anteriores, generar código inconsistente, o contradecir lo que ya se acordó.</p>
+                    </div>
+
+                    <div class="error-symptoms">
+                        <h3>🚨 Síntomas</h3>
+                        <ul class="symptoms-list">
+                            <li><span class="symptom-icon">🔄</span> La IA sugiere algo que ya rechazaste</li>
+                            <li><span class="symptom-icon">📝</span> Usa nombres de variables diferentes a los acordados</li>
+                            <li><span class="symptom-icon">🏗️</span> Cambia la arquitectura sin razón</li>
+                            <li><span class="symptom-icon">❓</span> Hace preguntas que ya respondiste</li>
+                        </ul>
+                    </div>
+
+                    <div class="error-solution">
+                        <h3>✅ Cómo Solucionarlo</h3>
+                        <div class="solution-cards">
+                            <div class="solution-card">
+                                <div class="solution-card-icon">📋</div>
+                                <h4>Usa un archivo de contexto</h4>
+                                <p>Crea un <code>CONTEXT.md</code> con decisiones clave y pégalo al inicio de nuevas conversaciones.</p>
+                                <div class="solution-example">
+                                    <code>## Proyecto: App de Tareas
+## Stack: React + Node + PostgreSQL
+## Decisiones:
+- Autenticación: JWT
+- Estilos: Tailwind CSS
+- Estado: Context API (no Redux)</code>
+                                </div>
+                            </div>
+                            <div class="solution-card">
+                                <div class="solution-card-icon">🔄</div>
+                                <h4>Resume periódicamente</h4>
+                                <p>Cada 10-15 mensajes, pide a la IA que resuma lo acordado.</p>
+                                <div class="solution-example">
+                                    <code>"Resume las decisiones técnicas que hemos tomado hasta ahora"</code>
+                                </div>
+                            </div>
+                            <div class="solution-card">
+                                <div class="solution-card-icon">📁</div>
+                                <h4>Divide en conversaciones</h4>
+                                <p>Una conversación por feature o módulo. Mantén enfoque.</p>
+                                <div class="solution-example">
+                                    <code>Conv 1: Setup inicial
+Conv 2: Autenticación
+Conv 3: CRUD de tareas
+Conv 4: UI/estilos</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error 4: Over-engineering -->
+            <div class="error-card" data-severity="medium">
+                <div class="error-card-header">
+                    <div class="error-severity medium">
+                        <span class="severity-icon">🟡</span>
+                        <span class="severity-text">Media Frecuencia</span>
+                    </div>
+                    <h2>Error #4: Over-engineering (Código Excesivamente Complejo)</h2>
+                </div>
+                <div class="error-card-body">
+                    <div class="error-description">
+                        <h3>🔍 El Problema</h3>
+                        <p>La IA a veces genera soluciones más complejas de lo necesario: patrones de diseño innecesarios, abstracciones prematuras, o arquitectura para escala que no necesitas.</p>
+                    </div>
+
+                    <div class="error-example">
+                        <div class="example-bad">
+                            <div class="example-header bad">
+                                <span>❌</span> Over-engineered (para una simple calculadora)
+                            </div>
+                            <div class="example-content">
+                                <pre><code>// Factory Pattern + Strategy Pattern + Observer... para sumar 2 números
+class OperationFactory {
+    static createOperation(type) {
+        switch(type) {
+            case 'add': return new AdditionStrategy();
+            case 'subtract': return new SubtractionStrategy();
+            // ... 50 líneas más
+        }
+    }
+}
+
+class Calculator extends Observable {
+    constructor(operationFactory) {
+        this.factory = operationFactory;
+        this.observers = [];
+        // ... 100 líneas más
+    }
+}</code></pre>
+                            </div>
+                        </div>
+                        <div class="example-good">
+                            <div class="example-header good">
+                                <span>✅</span> Simple y suficiente
+                            </div>
+                            <div class="example-content">
+                                <pre><code>// Para una calculadora simple, esto es suficiente
+const calculator = {
+    add: (a, b) => a + b,
+    subtract: (a, b) => a - b,
+    multiply: (a, b) => a * b,
+    divide: (a, b) => b !== 0 ? a / b : 'Error: división por cero'
+};</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="error-solution">
+                        <h3>✅ Cómo Evitarlo</h3>
+                        <div class="avoid-tips">
+                            <div class="avoid-tip">
+                                <span class="tip-icon">🎯</span>
+                                <div>
+                                    <h4>Pide soluciones simples explícitamente</h4>
+                                    <p>"Dame la solución más simple que funcione, sin patrones de diseño complejos"</p>
+                                </div>
+                            </div>
+                            <div class="avoid-tip">
+                                <span class="tip-icon">📏</span>
+                                <div>
+                                    <h4>Aplica la regla del 3</h4>
+                                    <p>No abstraigas hasta que algo se repita 3 veces</p>
+                                </div>
+                            </div>
+                            <div class="avoid-tip">
+                                <span class="tip-icon">🚀</span>
+                                <div>
+                                    <h4>Pregunta: ¿Lo necesito ahora?</h4>
+                                    <p>YAGNI: You Aren't Gonna Need It</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error 5: Dependencias y Versiones -->
+            <div class="error-card" data-severity="medium">
+                <div class="error-card-header">
+                    <div class="error-severity medium">
+                        <span class="severity-icon">🟡</span>
+                        <span class="severity-text">Media Frecuencia</span>
+                    </div>
+                    <h2>Error #5: Problemas de Dependencias y Versiones</h2>
+                </div>
+                <div class="error-card-body">
+                    <div class="error-description">
+                        <h3>🔍 El Problema</h3>
+                        <p>La IA puede sugerir código para versiones desactualizadas de librerías, o mezclar sintaxis de diferentes versiones.</p>
+                    </div>
+
+                    <div class="error-example">
+                        <div class="example-bad">
+                            <div class="example-header bad">
+                                <span>❌</span> Código para versión antigua
+                            </div>
+                            <div class="example-content">
+                                <pre><code>// React con class components (pre-2019)
+class MyComponent extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { count: 0 };
+    }
+    render() {
+        return &lt;div&gt;{this.state.count}&lt;/div&gt;;
+    }
+}</code></pre>
+                            </div>
+                            <div class="example-result">
+                                <strong>Problema:</strong> Sintaxis obsoleta, no aprovecha hooks modernos.
+                            </div>
+                        </div>
+                        <div class="example-good">
+                            <div class="example-header good">
+                                <span>✅</span> Código moderno (especificando versión)
+                            </div>
+                            <div class="example-content">
+                                <pre><code>// React 18+ con hooks
+function MyComponent() {
+    const [count, setCount] = useState(0);
+    return &lt;div&gt;{count}&lt;/div&gt;;
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="error-solution">
+                        <h3>✅ Cómo Solucionarlo</h3>
+                        <div class="solution-steps">
+                            <div class="solution-step">
+                                <span class="step-num">1</span>
+                                <div class="step-content">
+                                    <h4>Especifica versiones en el prompt</h4>
+                                    <p>"Usando React 18, Node 20, y TypeScript 5..."</p>
+                                </div>
+                            </div>
+                            <div class="solution-step">
+                                <span class="step-num">2</span>
+                                <div class="step-content">
+                                    <h4>Comparte tu package.json</h4>
+                                    <p>La IA verá exactamente qué versiones usas</p>
+                                </div>
+                            </div>
+                            <div class="solution-step">
+                                <span class="step-num">3</span>
+                                <div class="step-content">
+                                    <h4>Pide que verifique compatibilidad</h4>
+                                    <p>"¿Este código es compatible con la versión X?"</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error 6: Seguridad -->
+            <div class="error-card" data-severity="critical">
+                <div class="error-card-header">
+                    <div class="error-severity critical">
+                        <span class="severity-icon">⛔</span>
+                        <span class="severity-text">Crítico</span>
+                    </div>
+                    <h2>Error #6: Vulnerabilidades de Seguridad</h2>
+                </div>
+                <div class="error-card-body">
+                    <div class="error-description">
+                        <h3>🔍 El Problema</h3>
+                        <p>La IA puede generar código con vulnerabilidades comunes del OWASP Top 10 si no se le especifica que priorice seguridad.</p>
+                    </div>
+
+                    <div class="vulnerability-grid">
+                        <div class="vulnerability-item">
+                            <div class="vuln-header">
+                                <span class="vuln-icon">💉</span>
+                                <h4>SQL Injection</h4>
+                            </div>
+                            <div class="vuln-bad">
+                                <code>query = f"SELECT * FROM users WHERE id = {user_id}"</code>
+                            </div>
+                            <div class="vuln-good">
+                                <code>query = "SELECT * FROM users WHERE id = ?"
+db.execute(query, [user_id])</code>
+                            </div>
+                        </div>
+                        <div class="vulnerability-item">
+                            <div class="vuln-header">
+                                <span class="vuln-icon">🖥️</span>
+                                <h4>XSS (Cross-Site Scripting)</h4>
+                            </div>
+                            <div class="vuln-bad">
+                                <code>element.innerHTML = userInput;</code>
+                            </div>
+                            <div class="vuln-good">
+                                <code>element.textContent = userInput;
+// o usar DOMPurify para HTML</code>
+                            </div>
+                        </div>
+                        <div class="vulnerability-item">
+                            <div class="vuln-header">
+                                <span class="vuln-icon">🔑</span>
+                                <h4>Credenciales Expuestas</h4>
+                            </div>
+                            <div class="vuln-bad">
+                                <code>const API_KEY = "sk-abc123...";</code>
+                            </div>
+                            <div class="vuln-good">
+                                <code>const API_KEY = process.env.API_KEY;</code>
+                            </div>
+                        </div>
+                        <div class="vulnerability-item">
+                            <div class="vuln-header">
+                                <span class="vuln-icon">📂</span>
+                                <h4>Path Traversal</h4>
+                            </div>
+                            <div class="vuln-bad">
+                                <code>readFile(`./uploads/${filename}`);</code>
+                            </div>
+                            <div class="vuln-good">
+                                <code>const safeName = path.basename(filename);
+readFile(`./uploads/${safeName}`);</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="error-solution">
+                        <h3>✅ Prompt de Seguridad</h3>
+                        <div class="security-prompt-box">
+                            <p>Agrega esto a tus prompts cuando generes código que maneje datos:</p>
+                            <div class="template-box">
+                                <pre><code>"Asegúrate de que el código:
+- Use prepared statements para queries SQL
+- Sanitice/escape todo input del usuario
+- No tenga credenciales hardcodeadas
+- Valide y limite el tamaño de uploads
+- Use HTTPS para llamadas externas
+- Implemente rate limiting si es una API"</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error 7: Tests Faltantes -->
+            <div class="error-card" data-severity="high">
+                <div class="error-card-header">
+                    <div class="error-severity high">
+                        <span class="severity-icon">🔴</span>
+                        <span class="severity-text">Alta Frecuencia</span>
+                    </div>
+                    <h2>Error #7: No Pedir Tests</h2>
+                </div>
+                <div class="error-card-body">
+                    <div class="error-description">
+                        <h3>🔍 El Problema</h3>
+                        <p>Generar código sin tests lleva a bugs que se descubren tarde, regresiones al hacer cambios, y miedo a refactorizar.</p>
+                    </div>
+
+                    <div class="error-solution">
+                        <h3>✅ Cómo Solucionarlo: TDD con IA</h3>
+                        <div class="tdd-flow">
+                            <div class="tdd-flow-step">
+                                <div class="flow-step-num red">1</div>
+                                <div class="flow-step-content">
+                                    <h4>Pide el test primero</h4>
+                                    <code>"Escribe un test para una función que valide emails"</code>
+                                </div>
+                            </div>
+                            <div class="tdd-flow-arrow">→</div>
+                            <div class="tdd-flow-step">
+                                <div class="flow-step-num green">2</div>
+                                <div class="flow-step-content">
+                                    <h4>Pide la implementación</h4>
+                                    <code>"Ahora implementa la función para que pase el test"</code>
+                                </div>
+                            </div>
+                            <div class="tdd-flow-arrow">→</div>
+                            <div class="tdd-flow-step">
+                                <div class="flow-step-num blue">3</div>
+                                <div class="flow-step-content">
+                                    <h4>Pide edge cases</h4>
+                                    <code>"Agrega tests para edge cases y errores"</code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="test-types">
+                            <h4>Tests que siempre debes pedir:</h4>
+                            <div class="test-type-grid">
+                                <div class="test-type">
+                                    <span>✅</span> Caso feliz (happy path)
+                                </div>
+                                <div class="test-type">
+                                    <span>❌</span> Inputs inválidos
+                                </div>
+                                <div class="test-type">
+                                    <span>🔲</span> Valores límite (0, -1, max)
+                                </div>
+                                <div class="test-type">
+                                    <span>📭</span> Valores vacíos/null
+                                </div>
+                                <div class="test-type">
+                                    <span>🌐</span> Errores de red/DB
+                                </div>
+                                <div class="test-type">
+                                    <span>⏱️</span> Timeouts
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Reference -->
+            <div class="error-quick-reference">
+                <h2>📋 Referencia Rápida: Prevención de Errores</h2>
+                <div class="quick-ref-table">
+                    <div class="quick-ref-row header">
+                        <div class="quick-ref-cell">Error</div>
+                        <div class="quick-ref-cell">Prevención</div>
+                        <div class="quick-ref-cell">Frase Clave en Prompt</div>
+                    </div>
+                    <div class="quick-ref-row">
+                        <div class="quick-ref-cell">Prompts vagos</div>
+                        <div class="quick-ref-cell">Usar estructura CTRE</div>
+                        <div class="quick-ref-cell"><code>"Con estos requisitos específicos..."</code></div>
+                    </div>
+                    <div class="quick-ref-row">
+                        <div class="quick-ref-cell">Código inseguro</div>
+                        <div class="quick-ref-cell">Pedir seguridad explícita</div>
+                        <div class="quick-ref-cell"><code>"Siguiendo OWASP Top 10..."</code></div>
+                    </div>
+                    <div class="quick-ref-row">
+                        <div class="quick-ref-cell">Sin tests</div>
+                        <div class="quick-ref-cell">TDD con IA</div>
+                        <div class="quick-ref-cell"><code>"Primero escribe el test..."</code></div>
+                    </div>
+                    <div class="quick-ref-row">
+                        <div class="quick-ref-cell">Over-engineering</div>
+                        <div class="quick-ref-cell">Pedir simplicidad</div>
+                        <div class="quick-ref-cell"><code>"La solución más simple..."</code></div>
+                    </div>
+                    <div class="quick-ref-row">
+                        <div class="quick-ref-cell">Versiones incorrectas</div>
+                        <div class="quick-ref-cell">Especificar versiones</div>
+                        <div class="quick-ref-cell"><code>"Usando [lib] versión X..."</code></div>
+                    </div>
+                    <div class="quick-ref-row">
+                        <div class="quick-ref-cell">Pérdida de contexto</div>
+                        <div class="quick-ref-cell">Archivo CONTEXT.md</div>
+                        <div class="quick-ref-cell"><code>"Contexto del proyecto: [pegar]"</code></div>
                     </div>
                 </div>
             </div>
