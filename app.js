@@ -673,52 +673,121 @@ function generateFinancieroHTML(datos) {
     return html;
 }
 
-// MERCADO LABORAL - Búsqueda de empleos en IA, Automatización y Vibe Coding
+// MERCADO LABORAL - Búsqueda de empleos en IA, BPA, Automatización y Vibe Coding
 const JOB_SEARCH_TERMS = [
+    // AI & ML
     'AI engineer',
     'prompt engineer',
-    'automation',
     'machine learning',
     'LLM',
     'artificial intelligence',
     'AI developer',
-    'process automation',
-    'RPA developer',
-    'AI consultant',
     'chatbot developer',
-    'NLP engineer'
+    'NLP engineer',
+    // Business Process Automation
+    'business process automation',
+    'BPA',
+    'process automation',
+    'workflow automation',
+    'RPA developer',
+    // Herramientas específicas
+    'n8n',
+    'Zapier',
+    'Make automation',
+    'Integromat',
+    'Power Automate',
+    'Microsoft Power Platform',
+    'UiPath',
+    'Automation Anywhere',
+    // No-code / Low-code
+    'no-code',
+    'low-code',
+    'citizen developer',
+    // Vibe Coding relacionado
+    'AI assistant',
+    'copilot developer'
 ];
 
-const FREELANCE_PLATFORMS = [
-    { name: 'Upwork', url: 'https://www.upwork.com/nx/search/jobs/?q=AI%20automation&sort=recency', icon: '💼' },
-    { name: 'Freelancer', url: 'https://www.freelancer.com/jobs/artificial-intelligence/', icon: '🌐' },
-    { name: 'Toptal', url: 'https://www.toptal.com/ai', icon: '⭐' },
-    { name: 'Fiverr', url: 'https://www.fiverr.com/categories/programming-tech/ai-coding', icon: '🎯' },
-    { name: 'We Work Remotely', url: 'https://weworkremotely.com/categories/remote-ai-jobs', icon: '🏠' }
+// Plataformas Freelance - Worldwide
+const FREELANCE_PLATFORMS_WORLDWIDE = [
+    { name: 'Upwork', url: 'https://www.upwork.com/nx/search/jobs/?q=automation%20n8n%20zapier&sort=recency', icon: '💼', desc: 'Freelance global' },
+    { name: 'Freelancer', url: 'https://www.freelancer.com/jobs/automation/', icon: '🌐', desc: 'Proyectos variados' },
+    { name: 'Toptal', url: 'https://www.toptal.com/automation', icon: '⭐', desc: 'Top 3% freelancers' },
+    { name: 'Fiverr', url: 'https://www.fiverr.com/search/gigs?query=n8n%20automation', icon: '🎯', desc: 'Gigs rápidos' },
+    { name: 'We Work Remotely', url: 'https://weworkremotely.com/remote-jobs/search?term=automation', icon: '🏠', desc: 'Solo remoto' },
+    { name: 'Remote OK', url: 'https://remoteok.com/remote-automation-jobs', icon: '✈️', desc: 'Nómadas digitales' },
+    { name: 'FlexJobs', url: 'https://www.flexjobs.com/search?search=automation&location=', icon: '🔄', desc: 'Trabajo flexible' },
+    { name: 'Contra', url: 'https://contra.com/search/automation', icon: '🆓', desc: 'Sin comisiones' },
+    { name: 'Gun.io', url: 'https://gun.io/', icon: '🎯', desc: 'Devs senior' },
+    { name: 'Arc.dev', url: 'https://arc.dev/remote-jobs?search=automation', icon: '🌟', desc: 'Remote devs' }
 ];
+
+// Plataformas para Argentina y LATAM
+const FREELANCE_PLATFORMS_LATAM = [
+    { name: 'Workana', url: 'https://www.workana.com/jobs?query=automatizacion+n8n', icon: '🇦🇷', desc: 'Popular en Argentina' },
+    { name: 'GetOnBoard', url: 'https://www.getonbrd.com/empleos?q=automation&remote=true', icon: '🌎', desc: 'Startups LATAM' },
+    { name: 'Hired', url: 'https://hired.com/talent', icon: '💎', desc: 'Tech talent' },
+    { name: 'Torre', url: 'https://torre.ai/jobs?q=automation', icon: '🗼', desc: 'AI matching LATAM' },
+    { name: 'LinkedIn Arg', url: 'https://www.linkedin.com/jobs/search/?keywords=automatizacion%20procesos&location=Argentina&f_WT=2', icon: '💼', desc: 'Remoto en LinkedIn' },
+    { name: 'Computrabajo', url: 'https://www.computrabajo.com.ar/empleos-de-automatizacion', icon: '🇦🇷', desc: 'Empresas argentinas' },
+    { name: 'Búmeran', url: 'https://www.bumeran.com.ar/empleos-busqueda-automatizacion.html', icon: '📋', desc: 'Portal argentino' },
+    { name: 'Turing', url: 'https://www.turing.com/jobs', icon: '🧠', desc: 'Devs remotos USD' }
+];
+
+// Búsquedas específicas de herramientas
+const TOOL_SPECIFIC_SEARCHES = [
+    { tool: 'n8n', urls: [
+        'https://www.upwork.com/nx/search/jobs/?q=n8n&sort=recency',
+        'https://www.freelancer.com/jobs/n8n/',
+        'https://remoteok.com/remote-n8n-jobs'
+    ]},
+    { tool: 'Zapier', urls: [
+        'https://www.upwork.com/nx/search/jobs/?q=zapier%20automation&sort=recency',
+        'https://weworkremotely.com/remote-jobs/search?term=zapier'
+    ]},
+    { tool: 'Power Automate', urls: [
+        'https://www.upwork.com/nx/search/jobs/?q=power%20automate&sort=recency',
+        'https://www.linkedin.com/jobs/search/?keywords=power%20automate&f_WT=2'
+    ]},
+    { tool: 'Make/Integromat', urls: [
+        'https://www.upwork.com/nx/search/jobs/?q=make%20integromat&sort=recency',
+        'https://www.freelancer.com/jobs/integromat/'
+    ]}
+];
+
+// Combinar todas las plataformas para el reporte
+const FREELANCE_PLATFORMS = [...FREELANCE_PLATFORMS_WORLDWIDE.slice(0, 5), ...FREELANCE_PLATFORMS_LATAM.slice(0, 5)];
 
 async function fetchMercadoLaboral() {
     addChatMessageHTML('bot', `
         <div class="mercado-loading">
             <div class="mercado-spinner"></div>
-            <span>Buscando empleos de IA, Automatización y Vibe Coding...</span>
+            <span>Buscando empleos de BPA, n8n, Power Automate, IA y Vibe Coding...</span>
         </div>
     `);
 
     try {
         const empleos = await fetchEmpleos();
         const html = generateLaboralHTML(empleos);
-        downloadHTML(html, 'empleos_ia_automation');
+        downloadHTML(html, 'empleos_bpa_automation');
 
         const categorias = [...new Set(empleos.map(e => e.categoria))];
+        const herramientas = empleos.filter(e =>
+            e.titulo.toLowerCase().includes('n8n') ||
+            e.titulo.toLowerCase().includes('zapier') ||
+            e.titulo.toLowerCase().includes('power automate') ||
+            e.titulo.toLowerCase().includes('make')
+        ).length;
 
         addChatMessageHTML('bot', `
             <strong>✅ ¡Reporte generado!</strong><br><br>
-            💼 Se encontraron <strong>${empleos.length}</strong> ofertas de trabajo<br>
-            🤖 Categorías: ${categorias.slice(0, 4).join(', ')}<br>
-            🌎 Ubicación: Remoto / Worldwide / LATAM<br><br>
-            <strong>🔍 Términos buscados:</strong><br>
-            AI, Prompt Engineer, Automation, ML, LLM, RPA, Chatbot<br><br>
+            💼 <strong>${empleos.length}</strong> ofertas encontradas<br>
+            🔧 <strong>${herramientas}</strong> específicas de herramientas (n8n, Zapier, Power Automate)<br>
+            🇦🇷 Incluye plataformas para Argentina/LATAM<br><br>
+            <strong>🔍 Búsquedas:</strong><br>
+            n8n, Zapier, Power Automate, Make, BPA, RPA, AI, Automation<br><br>
+            <strong>📍 Plataformas LATAM incluidas:</strong><br>
+            Workana, GetOnBoard, Torre, Computrabajo<br><br>
             <em>El archivo se descargó automáticamente.</em>
         `);
     } catch (error) {
@@ -728,19 +797,37 @@ async function fetchMercadoLaboral() {
 }
 
 async function fetchEmpleos() {
-    const empleosMap = new Map(); // Usar Map para evitar duplicados por URL
-
-    // Búsquedas en paralelo con múltiples términos
+    const empleosMap = new Map();
     const searchPromises = [];
 
-    // Remotive API - múltiples búsquedas
-    const remotiveTerms = ['AI', 'automation', 'machine learning', 'prompt engineer', 'LLM'];
+    // Remotive API - términos de BPA y herramientas
+    const remotiveTerms = [
+        'automation',
+        'n8n',
+        'zapier',
+        'power automate',
+        'workflow automation',
+        'RPA',
+        'process automation',
+        'AI',
+        'no-code',
+        'low-code',
+        'integromat',
+        'make automation'
+    ];
+
     for (const term of remotiveTerms) {
         searchPromises.push(fetchRemotiveJobs(term));
     }
 
-    // Arbeitnow API - empleos tech remotos
+    // Arbeitnow API
     searchPromises.push(fetchArbeitnowJobs());
+
+    // Himalayas API - remote jobs
+    searchPromises.push(fetchHimalayasJobs());
+
+    // Jobicy API - remote jobs
+    searchPromises.push(fetchJobicyJobs());
 
     // Ejecutar todas las búsquedas en paralelo
     const results = await Promise.allSettled(searchPromises);
@@ -756,12 +843,19 @@ async function fetchEmpleos() {
         }
     });
 
-    // Convertir a array y ordenar por fecha
+    // Convertir a array
     let empleos = Array.from(empleosMap.values());
-    empleos.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
 
-    // Si hay pocos resultados de APIs, agregar datos de demostración
-    if (empleos.length < 5) {
+    // Priorizar trabajos de herramientas específicas y Argentina
+    empleos.sort((a, b) => {
+        const aScore = getJobScore(a);
+        const bScore = getJobScore(b);
+        if (bScore !== aScore) return bScore - aScore;
+        return new Date(b.fecha) - new Date(a.fecha);
+    });
+
+    // Si hay pocos resultados, agregar datos de demostración
+    if (empleos.length < 10) {
         const demoJobs = generateDemoJobs();
         demoJobs.forEach(job => {
             if (!empleosMap.has(job.url)) {
@@ -770,7 +864,135 @@ async function fetchEmpleos() {
         });
     }
 
-    return empleos.slice(0, 30);
+    return empleos.slice(0, 50);
+}
+
+// Puntuación para priorizar trabajos relevantes
+function getJobScore(job) {
+    let score = 0;
+    const title = (job.titulo || '').toLowerCase();
+    const location = (job.ubicacion || '').toLowerCase();
+    const tags = (job.tags || []).join(' ').toLowerCase();
+
+    // Herramientas específicas (+10 puntos cada una)
+    if (title.includes('n8n') || tags.includes('n8n')) score += 10;
+    if (title.includes('zapier') || tags.includes('zapier')) score += 10;
+    if (title.includes('power automate') || tags.includes('power automate')) score += 10;
+    if (title.includes('make') || title.includes('integromat')) score += 10;
+    if (title.includes('uipath') || tags.includes('uipath')) score += 8;
+
+    // BPA / Automation (+5 puntos)
+    if (title.includes('business process') || title.includes('bpa')) score += 5;
+    if (title.includes('workflow automation')) score += 5;
+    if (title.includes('process automation')) score += 5;
+    if (title.includes('rpa')) score += 5;
+
+    // Argentina / LATAM (+7 puntos)
+    if (location.includes('argentina')) score += 7;
+    if (location.includes('latam') || location.includes('latin america')) score += 5;
+    if (location.includes('south america')) score += 4;
+
+    // AI relacionado (+3 puntos)
+    if (title.includes('ai') || title.includes('artificial intelligence')) score += 3;
+    if (title.includes('no-code') || title.includes('low-code')) score += 3;
+
+    // Worldwide/Remote (+2 puntos)
+    if (location.includes('worldwide') || location.includes('anywhere')) score += 2;
+
+    // Marcado como relevante
+    if (job.relevante) score += 2;
+
+    return score;
+}
+
+// Himalayas API - Remote Jobs
+async function fetchHimalayasJobs() {
+    const empleos = [];
+    try {
+        const response = await fetch('https://himalayas.app/jobs/api?limit=30');
+        const data = await response.json();
+
+        if (data.jobs) {
+            data.jobs.forEach(job => {
+                const title = (job.title || '').toLowerCase();
+                const description = (job.excerpt || '').toLowerCase();
+
+                const isRelevant = title.includes('automation') ||
+                    title.includes('n8n') ||
+                    title.includes('zapier') ||
+                    title.includes('power') ||
+                    title.includes('workflow') ||
+                    title.includes('rpa') ||
+                    title.includes('process') ||
+                    title.includes('ai') ||
+                    title.includes('no-code') ||
+                    description.includes('automation') ||
+                    description.includes('workflow');
+
+                if (isRelevant) {
+                    empleos.push({
+                        titulo: job.title,
+                        empresa: job.companyName,
+                        ubicacion: job.location || 'Remoto Worldwide',
+                        url: job.applicationLink || `https://himalayas.app/jobs/${job.slug}`,
+                        fecha: job.pubDate ? job.pubDate.slice(0, 10) : new Date().toISOString().slice(0, 10),
+                        categoria: 'Automation',
+                        tipo: job.type || 'Full-time',
+                        salario: job.salary || 'No especificado',
+                        tags: job.categories || [],
+                        fuente: 'Himalayas',
+                        relevante: true
+                    });
+                }
+            });
+        }
+    } catch (e) {
+        console.warn('Error Himalayas:', e);
+    }
+    return empleos;
+}
+
+// Jobicy API - Remote Jobs
+async function fetchJobicyJobs() {
+    const empleos = [];
+    try {
+        const response = await fetch('https://jobicy.com/api/v2/remote-jobs?count=30&industry=engineering');
+        const data = await response.json();
+
+        if (data.jobs) {
+            data.jobs.forEach(job => {
+                const title = (job.jobTitle || '').toLowerCase();
+
+                const isRelevant = title.includes('automation') ||
+                    title.includes('engineer') ||
+                    title.includes('developer') ||
+                    title.includes('process') ||
+                    title.includes('ai') ||
+                    title.includes('data');
+
+                if (isRelevant) {
+                    empleos.push({
+                        titulo: job.jobTitle,
+                        empresa: job.companyName,
+                        ubicacion: job.jobGeo || 'Remoto Worldwide',
+                        url: job.url,
+                        fecha: job.pubDate ? job.pubDate.slice(0, 10) : new Date().toISOString().slice(0, 10),
+                        categoria: job.jobIndustry || 'Tech',
+                        tipo: job.jobType || 'Full-time',
+                        salario: job.annualSalaryMin && job.annualSalaryMax
+                            ? `$${job.annualSalaryMin} - $${job.annualSalaryMax}`
+                            : 'No especificado',
+                        tags: [job.jobIndustry, job.jobLevel].filter(Boolean),
+                        fuente: 'Jobicy',
+                        relevante: true
+                    });
+                }
+            });
+        }
+    } catch (e) {
+        console.warn('Error Jobicy:', e);
+    }
+    return empleos;
 }
 
 async function fetchRemotiveJobs(searchTerm) {
@@ -883,84 +1105,183 @@ async function fetchArbeitnowJobs() {
 }
 
 function generateDemoJobs() {
-    // Trabajos de demostración cuando las APIs no devuelven suficientes resultados
+    // Trabajos de demostración enfocados en BPA, n8n, Power Automate, Zapier y Argentina
     const demoJobs = [
+        // n8n específicos
         {
-            titulo: 'AI Prompt Engineer',
-            empresa: 'TechStartup AI',
+            titulo: 'n8n Automation Specialist',
+            empresa: 'Workflow Experts',
             ubicacion: 'Remoto Worldwide',
-            url: 'https://www.linkedin.com/jobs/search/?keywords=prompt%20engineer&f_WT=2',
-            fecha: new Date().toISOString().slice(0, 10),
-            categoria: 'AI/ML',
-            tipo: 'Full-time / Freelance',
-            salario: '$60k - $120k USD',
-            tags: ['AI', 'Prompt Engineering', 'LLM'],
-            fuente: 'LinkedIn (Demo)',
-            relevante: true
-        },
-        {
-            titulo: 'Automation Developer (RPA/AI)',
-            empresa: 'Process Automation Co.',
-            ubicacion: 'Remoto LATAM',
-            url: 'https://www.upwork.com/nx/search/jobs/?q=RPA%20automation',
+            url: 'https://www.upwork.com/nx/search/jobs/?q=n8n&sort=recency',
             fecha: new Date().toISOString().slice(0, 10),
             categoria: 'Automation',
-            tipo: 'Contract',
+            tipo: 'Freelance',
             salario: '$40 - $80/hora',
-            tags: ['RPA', 'UiPath', 'Automation'],
+            tags: ['n8n', 'Workflow', 'API Integration', 'Node.js'],
             fuente: 'Upwork (Demo)',
             relevante: true
         },
         {
-            titulo: 'LLM/ChatGPT Integration Developer',
-            empresa: 'AI Solutions Inc.',
+            titulo: 'n8n Developer - Business Process Automation',
+            empresa: 'AutomateNow',
+            ubicacion: 'Remoto LATAM',
+            url: 'https://www.workana.com/jobs?query=n8n',
+            fecha: new Date().toISOString().slice(0, 10),
+            categoria: 'BPA',
+            tipo: 'Contract',
+            salario: '$30 - $60/hora',
+            tags: ['n8n', 'BPA', 'Integrations'],
+            fuente: 'Workana (Demo)',
+            relevante: true
+        },
+        // Power Automate específicos
+        {
+            titulo: 'Microsoft Power Automate Developer',
+            empresa: 'Digital Solutions SA',
+            ubicacion: 'Argentina (Remoto)',
+            url: 'https://www.linkedin.com/jobs/search/?keywords=power%20automate&location=Argentina&f_WT=2',
+            fecha: new Date().toISOString().slice(0, 10),
+            categoria: 'Power Platform',
+            tipo: 'Full-time',
+            salario: '$50k - $90k USD',
+            tags: ['Power Automate', 'Microsoft 365', 'Power Platform', 'SharePoint'],
+            fuente: 'LinkedIn (Demo)',
+            relevante: true
+        },
+        {
+            titulo: 'Power Platform Consultant',
+            empresa: 'Consulting Tech',
+            ubicacion: 'Remoto Argentina/LATAM',
+            url: 'https://www.getonbrd.com/empleos?q=power+automate',
+            fecha: new Date().toISOString().slice(0, 10),
+            categoria: 'Power Platform',
+            tipo: 'Contract',
+            salario: '$45 - $85/hora',
+            tags: ['Power Automate', 'Power Apps', 'Power BI'],
+            fuente: 'GetOnBoard (Demo)',
+            relevante: true
+        },
+        // Zapier específicos
+        {
+            titulo: 'Zapier Automation Expert',
+            empresa: 'Growth Hackers Inc',
             ubicacion: 'Remoto Worldwide',
-            url: 'https://weworkremotely.com/categories/remote-ai-jobs',
+            url: 'https://www.upwork.com/nx/search/jobs/?q=zapier&sort=recency',
+            fecha: new Date().toISOString().slice(0, 10),
+            categoria: 'Automation',
+            tipo: 'Freelance',
+            salario: '$35 - $70/hora',
+            tags: ['Zapier', 'No-Code', 'Integrations', 'CRM'],
+            fuente: 'Upwork (Demo)',
+            relevante: true
+        },
+        // Make/Integromat
+        {
+            titulo: 'Make (Integromat) Developer',
+            empresa: 'Automation Agency',
+            ubicacion: 'Remoto',
+            url: 'https://www.freelancer.com/jobs/integromat/',
+            fecha: new Date().toISOString().slice(0, 10),
+            categoria: 'Automation',
+            tipo: 'Freelance',
+            salario: '$30 - $60/hora',
+            tags: ['Make', 'Integromat', 'Webhooks', 'API'],
+            fuente: 'Freelancer (Demo)',
+            relevante: true
+        },
+        // BPA / RPA
+        {
+            titulo: 'Business Process Automation Analyst',
+            empresa: 'Enterprise Solutions',
+            ubicacion: 'Argentina (Híbrido)',
+            url: 'https://www.computrabajo.com.ar/empleos-de-automatizacion-procesos',
+            fecha: new Date().toISOString().slice(0, 10),
+            categoria: 'BPA',
+            tipo: 'Full-time',
+            salario: '$40k - $70k USD',
+            tags: ['BPA', 'Process Mapping', 'BPMN', 'Lean'],
+            fuente: 'Computrabajo (Demo)',
+            relevante: true
+        },
+        {
+            titulo: 'RPA Developer - UiPath',
+            empresa: 'Automation Consulting',
+            ubicacion: 'Remoto LATAM',
+            url: 'https://www.torre.ai/jobs?q=rpa',
+            fecha: new Date().toISOString().slice(0, 10),
+            categoria: 'RPA',
+            tipo: 'Contract',
+            salario: '$45 - $90/hora',
+            tags: ['UiPath', 'RPA', 'Automation Anywhere', 'Blue Prism'],
+            fuente: 'Torre (Demo)',
+            relevante: true
+        },
+        // AI + Automation
+        {
+            titulo: 'AI Automation Engineer',
+            empresa: 'AI First Labs',
+            ubicacion: 'Remoto Worldwide',
+            url: 'https://weworkremotely.com/remote-jobs/search?term=ai+automation',
             fecha: new Date().toISOString().slice(0, 10),
             categoria: 'AI/ML',
             tipo: 'Full-time',
             salario: '$80k - $150k USD',
-            tags: ['LLM', 'ChatGPT', 'API Integration'],
+            tags: ['AI', 'LLM', 'Automation', 'Python'],
             fuente: 'WWR (Demo)',
             relevante: true
         },
         {
-            titulo: 'AI Chatbot Developer',
-            empresa: 'Conversational AI Lab',
+            titulo: 'Vibe Coding / AI Assistant Developer',
+            empresa: 'NextGen Tech',
             ubicacion: 'Remoto',
-            url: 'https://www.freelancer.com/jobs/chatbot/',
-            fecha: new Date().toISOString().slice(0, 10),
-            categoria: 'AI/ML',
-            tipo: 'Freelance',
-            salario: '$30 - $60/hora',
-            tags: ['Chatbot', 'NLP', 'Python'],
-            fuente: 'Freelancer (Demo)',
-            relevante: true
-        },
-        {
-            titulo: 'Machine Learning Engineer',
-            empresa: 'Data Science Corp',
-            ubicacion: 'Remoto Worldwide',
-            url: 'https://remotive.com/remote-jobs/machine-learning',
+            url: 'https://remoteok.com/remote-ai-jobs',
             fecha: new Date().toISOString().slice(0, 10),
             categoria: 'AI/ML',
             tipo: 'Full-time',
-            salario: '$100k - $180k USD',
-            tags: ['ML', 'Python', 'TensorFlow'],
-            fuente: 'Remotive (Demo)',
+            salario: '$70k - $130k USD',
+            tags: ['AI', 'Claude', 'GPT', 'Prompt Engineering'],
+            fuente: 'RemoteOK (Demo)',
+            relevante: true
+        },
+        // Argentina específicos
+        {
+            titulo: 'Desarrollador de Automatizaciones',
+            empresa: 'Startup Argentina',
+            ubicacion: 'Buenos Aires (Remoto)',
+            url: 'https://www.bumeran.com.ar/empleos-busqueda-automatizacion.html',
+            fecha: new Date().toISOString().slice(0, 10),
+            categoria: 'Automation',
+            tipo: 'Full-time',
+            salario: '$800k - $1.5M ARS',
+            tags: ['Python', 'Automation', 'n8n', 'APIs'],
+            fuente: 'Búmeran (Demo)',
             relevante: true
         },
         {
-            titulo: 'AI Process Automation Consultant',
-            empresa: 'Digital Transformation LLC',
-            ubicacion: 'Remoto LATAM',
-            url: 'https://www.toptal.com/ai',
+            titulo: 'Consultor de Procesos y Automatización',
+            empresa: 'Consultoría Digital',
+            ubicacion: 'Argentina (Remoto)',
+            url: 'https://www.workana.com/jobs?query=automatizacion',
             fecha: new Date().toISOString().slice(0, 10),
             categoria: 'Consulting',
-            tipo: 'Contract',
-            salario: '$50 - $100/hora',
-            tags: ['AI', 'Consulting', 'Process Automation'],
-            fuente: 'Toptal (Demo)',
+            tipo: 'Freelance',
+            salario: '$25 - $50/hora USD',
+            tags: ['BPA', 'Consulting', 'Process Improvement'],
+            fuente: 'Workana (Demo)',
+            relevante: true
+        },
+        // No-code / Low-code
+        {
+            titulo: 'No-Code Automation Specialist',
+            empresa: 'NoCode Agency',
+            ubicacion: 'Remoto Worldwide',
+            url: 'https://www.contra.com/search/no-code',
+            fecha: new Date().toISOString().slice(0, 10),
+            categoria: 'No-Code',
+            tipo: 'Freelance',
+            salario: '$35 - $65/hora',
+            tags: ['No-Code', 'Zapier', 'Make', 'Airtable', 'Notion'],
+            fuente: 'Contra (Demo)',
             relevante: true
         }
     ];
@@ -1059,8 +1380,31 @@ function generateLaboralHTML(empleos) {
             border-color: #667eea;
             box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
         }
+        .platform-card.latam { border: 1px solid rgba(56, 239, 125, 0.3); }
+        .platform-card.latam:hover { border-color: #38ef7d; box-shadow: 0 10px 30px rgba(56, 239, 125, 0.2); }
+        .platform-card.worldwide { border: 1px solid rgba(102, 126, 234, 0.3); }
         .platform-icon { font-size: 2em; margin-bottom: 10px; }
         .platform-name { font-weight: 600; }
+        .platform-desc { font-size: 0.75em; opacity: 0.7; margin-top: 5px; }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .tool-card {
+            background: linear-gradient(135deg, #1e1e3f, #2d2d5a);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 3px solid #f093fb;
+        }
+        .tool-name { font-weight: 600; margin-bottom: 10px; font-size: 1.1em; }
+        .tool-links a {
+            color: #a5b4fc;
+            text-decoration: none;
+            font-size: 0.85em;
+        }
+        .tool-links a:hover { text-decoration: underline; }
         .jobs-grid {
             display: grid;
             gap: 20px;
@@ -1189,15 +1533,17 @@ function generateLaboralHTML(empleos) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
             .platforms-grid { grid-template-columns: repeat(2, 1fr); }
             .tips-grid { grid-template-columns: 1fr; }
+            .tools-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🤖 Empleos en IA & Automatización</h1>
-            <p>Oportunidades remotas en Inteligencia Artificial, Prompt Engineering, Automatización y Vibe Coding</p>
-            <p style="margin-top: 15px; font-size: 0.9em;">📅 Generado: ${fecha}</p>
+            <h1>🤖 Empleos: BPA, n8n, Power Automate & IA</h1>
+            <p>Oportunidades remotas en Business Process Automation, n8n, Zapier, Power Automate y Vibe Coding</p>
+            <p style="margin-top: 10px;">🇦🇷 Incluye plataformas para Argentina y LATAM</p>
+            <p style="margin-top: 5px; font-size: 0.85em; opacity: 0.8;">📅 Generado: ${fecha}</p>
         </div>
 
         <div class="stats-grid">
@@ -1220,23 +1566,49 @@ function generateLaboralHTML(empleos) {
         </div>
 
         <div class="filters">
-            <span class="filter-tag">🤖 AI Engineer</span>
-            <span class="filter-tag">💬 Prompt Engineer</span>
-            <span class="filter-tag">⚡ Automation</span>
-            <span class="filter-tag">🧠 Machine Learning</span>
-            <span class="filter-tag">🔗 LLM</span>
-            <span class="filter-tag">🤖 Chatbot</span>
+            <span class="filter-tag" style="background: rgba(56, 239, 125, 0.2); color: #38ef7d;">⚡ n8n</span>
+            <span class="filter-tag" style="background: rgba(56, 239, 125, 0.2); color: #38ef7d;">🔵 Power Automate</span>
+            <span class="filter-tag" style="background: rgba(56, 239, 125, 0.2); color: #38ef7d;">🟠 Zapier</span>
+            <span class="filter-tag" style="background: rgba(56, 239, 125, 0.2); color: #38ef7d;">🟣 Make</span>
+            <span class="filter-tag">📊 BPA</span>
             <span class="filter-tag">🔄 RPA</span>
-            <span class="filter-tag">🌎 Remoto</span>
+            <span class="filter-tag">🤖 AI</span>
+            <span class="filter-tag">📝 No-Code</span>
+            <span class="filter-tag">🇦🇷 Argentina</span>
+            <span class="filter-tag">🌎 Worldwide</span>
         </div>
 
-        <h2 class="section-title">🌐 Plataformas Freelance Recomendadas</h2>
+        <h2 class="section-title">🇦🇷 Plataformas para Argentina / LATAM</h2>
         <div class="platforms-grid">
-            ${FREELANCE_PLATFORMS.map(p => `
-                <a href="${p.url}" target="_blank" class="platform-card">
+            ${FREELANCE_PLATFORMS_LATAM.map(p => `
+                <a href="${p.url}" target="_blank" class="platform-card latam">
                     <div class="platform-icon">${p.icon}</div>
                     <div class="platform-name">${p.name}</div>
+                    <div class="platform-desc">${p.desc}</div>
                 </a>
+            `).join('')}
+        </div>
+
+        <h2 class="section-title">🌍 Plataformas Worldwide (Pago en USD)</h2>
+        <div class="platforms-grid">
+            ${FREELANCE_PLATFORMS_WORLDWIDE.map(p => `
+                <a href="${p.url}" target="_blank" class="platform-card worldwide">
+                    <div class="platform-icon">${p.icon}</div>
+                    <div class="platform-name">${p.name}</div>
+                    <div class="platform-desc">${p.desc}</div>
+                </a>
+            `).join('')}
+        </div>
+
+        <h2 class="section-title">🔧 Búsquedas por Herramienta</h2>
+        <div class="tools-grid">
+            ${TOOL_SPECIFIC_SEARCHES.map(t => `
+                <div class="tool-card">
+                    <div class="tool-name">⚡ ${t.tool}</div>
+                    <div class="tool-links">
+                        ${t.urls.map((url, i) => `<a href="${url}" target="_blank">Buscar ${i+1}</a>`).join(' | ')}
+                    </div>
+                </div>
             `).join('')}
         </div>
 
@@ -1281,23 +1653,31 @@ function generateLaboralHTML(empleos) {
         </div>
 
         <div class="tips-section">
-            <h3>💡 Tips para conseguir trabajo en IA/Automatización</h3>
+            <h3>💡 Tips para conseguir trabajo en BPA / Automatización</h3>
             <div class="tips-grid">
                 <div class="tip-item">
-                    <span class="tip-icon">📚</span>
-                    <span class="tip-text">Aprende herramientas como LangChain, OpenAI API, y frameworks de automatización (UiPath, n8n)</span>
+                    <span class="tip-icon">🔧</span>
+                    <span class="tip-text"><strong>Domina las herramientas clave:</strong> n8n (gratis, open source), Zapier, Make, Power Automate. Empieza con n8n que es gratis.</span>
                 </div>
                 <div class="tip-item">
                     <span class="tip-icon">🎯</span>
-                    <span class="tip-text">Crea un portfolio con proyectos de chatbots, automatizaciones o integraciones con LLMs</span>
+                    <span class="tip-text"><strong>Crea un portfolio:</strong> Automatiza algo real (CRM, email, reportes) y documéntalo en GitHub o Notion.</span>
                 </div>
                 <div class="tip-item">
-                    <span class="tip-icon">📝</span>
-                    <span class="tip-text">Domina el arte del Prompt Engineering - es una de las habilidades más buscadas</span>
+                    <span class="tip-icon">🇦🇷</span>
+                    <span class="tip-text"><strong>Para Argentina:</strong> Workana y GetOnBoard tienen muchos proyectos en español. Torre.ai usa AI para matchear.</span>
                 </div>
                 <div class="tip-item">
-                    <span class="tip-icon">🌐</span>
-                    <span class="tip-text">Mantén tu perfil de LinkedIn actualizado con keywords: AI, LLM, Automation, Prompt Engineering</span>
+                    <span class="tip-icon">💰</span>
+                    <span class="tip-text"><strong>Cobra en USD:</strong> Upwork, Toptal y Contra pagan en dólares. Ideal para freelancers argentinos.</span>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-icon">📜</span>
+                    <span class="tip-text"><strong>Certificaciones útiles:</strong> Microsoft Power Platform, UiPath, Zapier Expert. Muchas son gratis.</span>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-icon">🚀</span>
+                    <span class="tip-text"><strong>Vibe Coding:</strong> Aprende a usar Claude/GPT para generar código y automatizaciones más rápido.</span>
                 </div>
             </div>
         </div>
