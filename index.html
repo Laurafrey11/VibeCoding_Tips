@@ -37,9 +37,15 @@
                     <span>Buenas Prácticas</span>
                 </a>
             </li>
+            <li>
+                <a href="#documentacion" class="nav-link" data-section="documentacion">
+                    <span class="nav-icon">📁</span>
+                    <span>Documentación</span>
+                </a>
+            </li>
         </ul>
         <div class="sidebar-footer">
-            <p>Guía Interactiva v1.0</p>
+            <p>Guía Interactiva v1.2</p>
         </div>
     </nav>
 
@@ -402,6 +408,357 @@
                     <div class="tip-item">
                         <span class="tip-number">06</span>
                         <p>Aprende de cada iteración</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 5: Documentación -->
+        <section id="documentacion" class="section">
+            <div class="section-header">
+                <h1>Documentación del Proyecto</h1>
+                <p class="subtitle">Mantén tu proyecto organizado y profesional</p>
+            </div>
+
+            <!-- Intro de Documentación -->
+            <div class="doc-intro">
+                <div class="doc-intro-card">
+                    <div class="doc-intro-icon">📋</div>
+                    <div class="doc-intro-content">
+                        <h3>¿Por qué documentar?</h3>
+                        <p>La documentación transforma código en un proyecto profesional. Permite que otros (y tu yo futuro) entiendan las decisiones, el proceso y cómo contribuir.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timeline de Documentación -->
+            <div class="doc-workflow">
+                <h2 class="section-subtitle">Flujo de Documentación</h2>
+                <div class="doc-workflow-timeline">
+                    <div class="doc-workflow-step">
+                        <div class="workflow-step-icon">1</div>
+                        <div class="workflow-step-content">
+                            <h4>Antes de Codificar</h4>
+                            <p>Crea el PRD con objetivos y requisitos</p>
+                        </div>
+                    </div>
+                    <div class="doc-workflow-arrow">→</div>
+                    <div class="doc-workflow-step">
+                        <div class="workflow-step-icon">2</div>
+                        <div class="workflow-step-content">
+                            <h4>Durante el Desarrollo</h4>
+                            <p>Registra prompts e iteraciones con IA</p>
+                        </div>
+                    </div>
+                    <div class="doc-workflow-arrow">→</div>
+                    <div class="doc-workflow-step">
+                        <div class="workflow-step-icon">3</div>
+                        <div class="workflow-step-content">
+                            <h4>Después de Cambios</h4>
+                            <p>Actualiza Changelog y haz commits descriptivos</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Documentos Clave -->
+            <h2 class="section-subtitle">Documentos Clave</h2>
+            <div class="doc-cards-grid">
+                <!-- PRD Card -->
+                <div class="doc-card">
+                    <div class="doc-card-header prd">
+                        <span class="doc-card-icon">📄</span>
+                        <h3>PRD</h3>
+                        <span class="doc-card-badge">Product Requirements Document</span>
+                    </div>
+                    <div class="doc-card-body">
+                        <p>Define qué construir ANTES de escribir código.</p>
+
+                        <div class="doc-card-section">
+                            <h4>Contenido esencial:</h4>
+                            <ul class="doc-list">
+                                <li><span class="list-icon">🎯</span> Visión y objetivos del producto</li>
+                                <li><span class="list-icon">👥</span> Audiencia objetivo</li>
+                                <li><span class="list-icon">✅</span> Requisitos funcionales (tabla)</li>
+                                <li><span class="list-icon">📊</span> Criterios de éxito medibles</li>
+                            </ul>
+                        </div>
+
+                        <div class="doc-example">
+                            <div class="doc-example-header">
+                                <span>📝</span> Ejemplo de requisito:
+                            </div>
+                            <div class="doc-example-content">
+                                <table class="mini-table">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Requisito</th>
+                                        <th>Prioridad</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                    <tr>
+                                        <td>RF-01</td>
+                                        <td>Login con email</td>
+                                        <td>Alta</td>
+                                        <td>✅</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Iterations Card -->
+                <div class="doc-card">
+                    <div class="doc-card-header ai-log">
+                        <span class="doc-card-icon">🤖</span>
+                        <h3>AI Log</h3>
+                        <span class="doc-card-badge">Registro de Iteraciones</span>
+                    </div>
+                    <div class="doc-card-body">
+                        <p>Documenta cada interacción significativa con la IA.</p>
+
+                        <div class="doc-card-section">
+                            <h4>Registrar por iteración:</h4>
+                            <ul class="doc-list">
+                                <li><span class="list-icon">💬</span> Prompt enviado (exacto)</li>
+                                <li><span class="list-icon">📤</span> Output recibido</li>
+                                <li><span class="list-icon">✏️</span> Cambios manuales hechos</li>
+                                <li><span class="list-icon">💡</span> Razón de los cambios</li>
+                            </ul>
+                        </div>
+
+                        <div class="doc-example">
+                            <div class="doc-example-header">
+                                <span>📝</span> Ejemplo de entrada:
+                            </div>
+                            <div class="doc-example-content code-style">
+                                <strong>Iteración 3 - Chat Widget</strong><br>
+                                <em>Prompt:</em> "Agrega un chat flotante..."<br>
+                                <em>Output:</em> Widget con 3 archivos<br>
+                                <em>Cambio manual:</em> Expandí respuestas<br>
+                                <em>Razón:</em> Respuestas muy básicas
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Changelog Card -->
+                <div class="doc-card">
+                    <div class="doc-card-header changelog">
+                        <span class="doc-card-icon">📜</span>
+                        <h3>Changelog</h3>
+                        <span class="doc-card-badge">Historial de Cambios</span>
+                    </div>
+                    <div class="doc-card-body">
+                        <p>Historial cronológico de todos los cambios del proyecto.</p>
+
+                        <div class="doc-card-section">
+                            <h4>Categorías de cambios:</h4>
+                            <div class="changelog-tags">
+                                <span class="tag added">Agregado</span>
+                                <span class="tag changed">Cambiado</span>
+                                <span class="tag fixed">Corregido</span>
+                                <span class="tag removed">Eliminado</span>
+                            </div>
+                        </div>
+
+                        <div class="doc-example">
+                            <div class="doc-example-header">
+                                <span>📝</span> Formato estándar:
+                            </div>
+                            <div class="doc-example-content code-style">
+                                <strong>## [1.1.0] - 2024-01-29</strong><br>
+                                ### Agregado<br>
+                                - Chat widget con asistente<br>
+                                - Función secreta de mercado<br>
+                                ### Corregido<br>
+                                - Bug en navegación móvil
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conventions Card -->
+                <div class="doc-card">
+                    <div class="doc-card-header conventions">
+                        <span class="doc-card-icon">📐</span>
+                        <h3>Convenciones</h3>
+                        <span class="doc-card-badge">Guía de Estilo</span>
+                    </div>
+                    <div class="doc-card-body">
+                        <p>Reglas de código para mantener consistencia.</p>
+
+                        <div class="doc-card-section">
+                            <h4>Áreas a definir:</h4>
+                            <ul class="doc-list">
+                                <li><span class="list-icon">🟨</span> JavaScript: camelCase, const/let</li>
+                                <li><span class="list-icon">🟦</span> CSS: kebab-case, BEM, variables</li>
+                                <li><span class="list-icon">🟩</span> Git: formato de commits</li>
+                                <li><span class="list-icon">🐍</span> Python: PEP 8, type hints</li>
+                            </ul>
+                        </div>
+
+                        <div class="doc-example">
+                            <div class="doc-example-header">
+                                <span>📝</span> Ejemplo de commit:
+                            </div>
+                            <div class="doc-example-content code-style">
+                                feat(chat): add market function<br>
+                                fix(nav): resolve mobile menu bug<br>
+                                docs(readme): update install steps
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Workflow Visual -->
+            <h2 class="section-subtitle">Workflow de Desarrollo</h2>
+            <div class="workflow-visual">
+                <div class="workflow-phase">
+                    <div class="phase-header planear">
+                        <span class="phase-icon">📋</span>
+                        <h3>PLANEAR</h3>
+                    </div>
+                    <div class="phase-content">
+                        <ul>
+                            <li>Definir objetivo</li>
+                            <li>Actualizar PRD</li>
+                            <li>Revisar código existente</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="workflow-arrow-large">▶</div>
+                <div class="workflow-phase">
+                    <div class="phase-header desarrollar">
+                        <span class="phase-icon">💻</span>
+                        <h3>DESARROLLAR</h3>
+                    </div>
+                    <div class="phase-content">
+                        <ul>
+                            <li>Escribir prompt específico</li>
+                            <li>Iterar con la IA</li>
+                            <li>Ajustar código</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="workflow-arrow-large">▶</div>
+                <div class="workflow-phase">
+                    <div class="phase-header revisar">
+                        <span class="phase-icon">🔍</span>
+                        <h3>REVISAR</h3>
+                    </div>
+                    <div class="phase-content">
+                        <ul>
+                            <li>Entender el código</li>
+                            <li>Verificar seguridad</li>
+                            <li>Ejecutar tests</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="workflow-arrow-large">▶</div>
+                <div class="workflow-phase">
+                    <div class="phase-header documentar">
+                        <span class="phase-icon">📝</span>
+                        <h3>DOCUMENTAR</h3>
+                    </div>
+                    <div class="phase-content">
+                        <ul>
+                            <li>Actualizar Changelog</li>
+                            <li>Registrar en AI Log</li>
+                            <li>Commit descriptivo</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Estructura de Carpetas -->
+            <h2 class="section-subtitle">Estructura Recomendada</h2>
+            <div class="folder-structure">
+                <div class="folder-tree">
+                    <div class="folder-item root">
+                        <span class="folder-icon">📁</span>
+                        <span class="folder-name">mi-proyecto/</span>
+                    </div>
+                    <div class="folder-item file">
+                        <span class="folder-icon">📄</span>
+                        <span class="folder-name">README.md</span>
+                        <span class="folder-desc">Introducción y setup</span>
+                    </div>
+                    <div class="folder-item file">
+                        <span class="folder-icon">📜</span>
+                        <span class="folder-name">CHANGELOG.md</span>
+                        <span class="folder-desc">Historial de versiones</span>
+                    </div>
+                    <div class="folder-item folder">
+                        <span class="folder-icon">📁</span>
+                        <span class="folder-name">docs/</span>
+                    </div>
+                    <div class="folder-item file nested">
+                        <span class="folder-icon">📄</span>
+                        <span class="folder-name">PRD.md</span>
+                        <span class="folder-desc">Requisitos</span>
+                    </div>
+                    <div class="folder-item file nested">
+                        <span class="folder-icon">🤖</span>
+                        <span class="folder-name">AI_ITERATIONS.md</span>
+                        <span class="folder-desc">Log de IA</span>
+                    </div>
+                    <div class="folder-item file nested">
+                        <span class="folder-icon">📐</span>
+                        <span class="folder-name">CONVENTIONS.md</span>
+                        <span class="folder-desc">Guía de estilo</span>
+                    </div>
+                    <div class="folder-item file nested">
+                        <span class="folder-icon">🔄</span>
+                        <span class="folder-name">WORKFLOW.md</span>
+                        <span class="folder-desc">Proceso de trabajo</span>
+                    </div>
+                    <div class="folder-item folder">
+                        <span class="folder-icon">📁</span>
+                        <span class="folder-name">src/</span>
+                        <span class="folder-desc">Código fuente</span>
+                    </div>
+                    <div class="folder-item folder">
+                        <span class="folder-icon">📁</span>
+                        <span class="folder-name">tests/</span>
+                        <span class="folder-desc">Tests unitarios</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tips Finales -->
+            <div class="doc-tips-final">
+                <h3>💡 Tips para Documentar con IA</h3>
+                <div class="tips-final-grid">
+                    <div class="tip-final-item">
+                        <div class="tip-final-number">01</div>
+                        <div class="tip-final-content">
+                            <h4>Pide documentación mientras desarrollas</h4>
+                            <p>"Documenta esta función con JSDoc"</p>
+                        </div>
+                    </div>
+                    <div class="tip-final-item">
+                        <div class="tip-final-number">02</div>
+                        <div class="tip-final-content">
+                            <h4>Guarda los prompts importantes</h4>
+                            <p>Son parte de la historia del proyecto</p>
+                        </div>
+                    </div>
+                    <div class="tip-final-item">
+                        <div class="tip-final-number">03</div>
+                        <div class="tip-final-content">
+                            <h4>Explica el "por qué", no solo el "qué"</h4>
+                            <p>"Elegí React por escalabilidad"</p>
+                        </div>
+                    </div>
+                    <div class="tip-final-item">
+                        <div class="tip-final-number">04</div>
+                        <div class="tip-final-content">
+                            <h4>Actualiza docs con cada cambio</h4>
+                            <p>Documentación desactualizada = deuda técnica</p>
+                        </div>
                     </div>
                 </div>
             </div>
