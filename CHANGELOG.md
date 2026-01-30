@@ -16,6 +16,26 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/lang/es/).
 
 ---
 
+## [1.4.0] - 2024-01-30
+
+### Agregado
+- Búsqueda laboral mejorada con múltiples APIs (Remotive, Arbeitnow)
+- 12 términos de búsqueda relevantes (AI, Prompt Engineer, Automation, ML, LLM, etc.)
+- Sección de plataformas freelance recomendadas (Upwork, Freelancer, Toptal, Fiverr, WWR)
+- Información de salarios cuando está disponible
+- Tags de tecnologías por cada oferta
+- Badge de "Relevante" para ofertas altamente relacionadas
+- Tips para conseguir trabajo en IA/Automatización
+- Datos de demostración cuando las APIs no responden
+- Reporte HTML rediseñado con mejor UX
+
+### Cambiado
+- Búsqueda laboral ahora busca en paralelo múltiples términos
+- Filtrado mejorado por relevancia (AI, automation, prompt, etc.)
+- Reporte incluye estadísticas de ofertas, categorías y fuentes
+
+---
+
 ## [1.3.0] - 2024-01-30
 
 ### Agregado

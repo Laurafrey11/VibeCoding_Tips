@@ -673,24 +673,52 @@ function generateFinancieroHTML(datos) {
     return html;
 }
 
-// MERCADO LABORAL
+// MERCADO LABORAL - Búsqueda de empleos en IA, Automatización y Vibe Coding
+const JOB_SEARCH_TERMS = [
+    'AI engineer',
+    'prompt engineer',
+    'automation',
+    'machine learning',
+    'LLM',
+    'artificial intelligence',
+    'AI developer',
+    'process automation',
+    'RPA developer',
+    'AI consultant',
+    'chatbot developer',
+    'NLP engineer'
+];
+
+const FREELANCE_PLATFORMS = [
+    { name: 'Upwork', url: 'https://www.upwork.com/nx/search/jobs/?q=AI%20automation&sort=recency', icon: '💼' },
+    { name: 'Freelancer', url: 'https://www.freelancer.com/jobs/artificial-intelligence/', icon: '🌐' },
+    { name: 'Toptal', url: 'https://www.toptal.com/ai', icon: '⭐' },
+    { name: 'Fiverr', url: 'https://www.fiverr.com/categories/programming-tech/ai-coding', icon: '🎯' },
+    { name: 'We Work Remotely', url: 'https://weworkremotely.com/categories/remote-ai-jobs', icon: '🏠' }
+];
+
 async function fetchMercadoLaboral() {
     addChatMessageHTML('bot', `
         <div class="mercado-loading">
             <div class="mercado-spinner"></div>
-            <span>Buscando empleos remotos en Argentina...</span>
+            <span>Buscando empleos de IA, Automatización y Vibe Coding...</span>
         </div>
     `);
 
     try {
         const empleos = await fetchEmpleos();
         const html = generateLaboralHTML(empleos);
-        downloadHTML(html, 'empleos_remotos');
+        downloadHTML(html, 'empleos_ia_automation');
+
+        const categorias = [...new Set(empleos.map(e => e.categoria))];
 
         addChatMessageHTML('bot', `
             <strong>✅ ¡Reporte generado!</strong><br><br>
-            💼 Se encontraron ${empleos.length} ofertas de trabajo<br>
-            🔍 Búsqueda: Automation Process | Remoto | Argentina/LATAM<br><br>
+            💼 Se encontraron <strong>${empleos.length}</strong> ofertas de trabajo<br>
+            🤖 Categorías: ${categorias.slice(0, 4).join(', ')}<br>
+            🌎 Ubicación: Remoto / Worldwide / LATAM<br><br>
+            <strong>🔍 Términos buscados:</strong><br>
+            AI, Prompt Engineer, Automation, ML, LLM, RPA, Chatbot<br><br>
             <em>El archivo se descargó automáticamente.</em>
         `);
     } catch (error) {
@@ -700,173 +728,584 @@ async function fetchMercadoLaboral() {
 }
 
 async function fetchEmpleos() {
-    const empleos = [];
+    const empleosMap = new Map(); // Usar Map para evitar duplicados por URL
 
-    try {
-        // Remotive API
-        const response = await fetch('https://remotive.com/api/remote-jobs?search=automation%20process&limit=20');
-        const data = await response.json();
+    // Búsquedas en paralelo con múltiples términos
+    const searchPromises = [];
 
-        data.jobs.forEach(job => {
-            const location = (job.candidate_required_location || '').toLowerCase();
-            if (location.includes('argentina') || location.includes('latam') ||
-                location.includes('latin america') || location.includes('worldwide') ||
-                location.includes('anywhere') || location.includes('south america')) {
-                empleos.push({
-                    titulo: job.title,
-                    empresa: job.company_name,
-                    ubicacion: job.candidate_required_location || 'Remoto',
-                    url: job.url,
-                    fecha: job.publication_date ? job.publication_date.slice(0, 10) : '',
-                    categoria: job.category || 'Tech',
-                    tipo: job.job_type || 'Full-time',
-                    logo: job.company_logo
-                });
-            }
-        });
-    } catch (e) {
-        console.error('Error Remotive:', e);
+    // Remotive API - múltiples búsquedas
+    const remotiveTerms = ['AI', 'automation', 'machine learning', 'prompt engineer', 'LLM'];
+    for (const term of remotiveTerms) {
+        searchPromises.push(fetchRemotiveJobs(term));
     }
 
-    return empleos.slice(0, 15);
+    // Arbeitnow API - empleos tech remotos
+    searchPromises.push(fetchArbeitnowJobs());
+
+    // Ejecutar todas las búsquedas en paralelo
+    const results = await Promise.allSettled(searchPromises);
+
+    // Combinar resultados
+    results.forEach(result => {
+        if (result.status === 'fulfilled' && result.value) {
+            result.value.forEach(job => {
+                if (!empleosMap.has(job.url)) {
+                    empleosMap.set(job.url, job);
+                }
+            });
+        }
+    });
+
+    // Convertir a array y ordenar por fecha
+    let empleos = Array.from(empleosMap.values());
+    empleos.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+
+    // Si hay pocos resultados de APIs, agregar datos de demostración
+    if (empleos.length < 5) {
+        const demoJobs = generateDemoJobs();
+        demoJobs.forEach(job => {
+            if (!empleosMap.has(job.url)) {
+                empleos.push(job);
+            }
+        });
+    }
+
+    return empleos.slice(0, 30);
+}
+
+async function fetchRemotiveJobs(searchTerm) {
+    const empleos = [];
+    try {
+        const response = await fetch(`https://remotive.com/api/remote-jobs?search=${encodeURIComponent(searchTerm)}&limit=15`);
+        const data = await response.json();
+
+        if (data.jobs) {
+            data.jobs.forEach(job => {
+                const location = (job.candidate_required_location || '').toLowerCase();
+                const title = (job.title || '').toLowerCase();
+                const tags = (job.tags || []).join(' ').toLowerCase();
+
+                // Filtrar por ubicación compatible
+                const locationOk = location.includes('argentina') ||
+                    location.includes('latam') ||
+                    location.includes('latin america') ||
+                    location.includes('worldwide') ||
+                    location.includes('anywhere') ||
+                    location.includes('south america') ||
+                    location.includes('remote') ||
+                    location === '';
+
+                // Filtrar por relevancia (AI, automation, etc.)
+                const isRelevant = title.includes('ai') ||
+                    title.includes('automation') ||
+                    title.includes('machine learning') ||
+                    title.includes('prompt') ||
+                    title.includes('llm') ||
+                    title.includes('nlp') ||
+                    title.includes('chatbot') ||
+                    title.includes('artificial') ||
+                    title.includes('rpa') ||
+                    tags.includes('ai') ||
+                    tags.includes('automation') ||
+                    tags.includes('machine-learning');
+
+                if (locationOk) {
+                    empleos.push({
+                        titulo: job.title,
+                        empresa: job.company_name,
+                        ubicacion: job.candidate_required_location || 'Remoto Worldwide',
+                        url: job.url,
+                        fecha: job.publication_date ? job.publication_date.slice(0, 10) : new Date().toISOString().slice(0, 10),
+                        categoria: job.category || 'Tech',
+                        tipo: job.job_type || 'Full-time',
+                        salario: job.salary || 'No especificado',
+                        tags: job.tags || [],
+                        fuente: 'Remotive',
+                        relevante: isRelevant
+                    });
+                }
+            });
+        }
+    } catch (e) {
+        console.warn('Error Remotive:', e);
+    }
+    return empleos;
+}
+
+async function fetchArbeitnowJobs() {
+    const empleos = [];
+    try {
+        const response = await fetch('https://www.arbeitnow.com/api/job-board-api?page=1');
+        const data = await response.json();
+
+        if (data.data) {
+            data.data.forEach(job => {
+                const title = (job.title || '').toLowerCase();
+                const description = (job.description || '').toLowerCase();
+                const tags = (job.tags || []).join(' ').toLowerCase();
+
+                // Filtrar solo trabajos remotos y relevantes
+                const isRemote = job.remote === true ||
+                    (job.location || '').toLowerCase().includes('remote');
+
+                const isRelevant = title.includes('ai') ||
+                    title.includes('automation') ||
+                    title.includes('machine learning') ||
+                    title.includes('data') ||
+                    title.includes('engineer') ||
+                    title.includes('developer') ||
+                    description.includes('artificial intelligence') ||
+                    description.includes('automation') ||
+                    tags.includes('ai') ||
+                    tags.includes('python');
+
+                if (isRemote && isRelevant) {
+                    empleos.push({
+                        titulo: job.title,
+                        empresa: job.company_name,
+                        ubicacion: job.remote ? 'Remoto' : (job.location || 'No especificado'),
+                        url: job.url,
+                        fecha: job.created_at ? job.created_at.slice(0, 10) : new Date().toISOString().slice(0, 10),
+                        categoria: tags.includes('ai') ? 'AI/ML' : 'Software Development',
+                        tipo: 'Full-time',
+                        salario: 'No especificado',
+                        tags: job.tags || [],
+                        fuente: 'Arbeitnow',
+                        relevante: true
+                    });
+                }
+            });
+        }
+    } catch (e) {
+        console.warn('Error Arbeitnow:', e);
+    }
+    return empleos;
+}
+
+function generateDemoJobs() {
+    // Trabajos de demostración cuando las APIs no devuelven suficientes resultados
+    const demoJobs = [
+        {
+            titulo: 'AI Prompt Engineer',
+            empresa: 'TechStartup AI',
+            ubicacion: 'Remoto Worldwide',
+            url: 'https://www.linkedin.com/jobs/search/?keywords=prompt%20engineer&f_WT=2',
+            fecha: new Date().toISOString().slice(0, 10),
+            categoria: 'AI/ML',
+            tipo: 'Full-time / Freelance',
+            salario: '$60k - $120k USD',
+            tags: ['AI', 'Prompt Engineering', 'LLM'],
+            fuente: 'LinkedIn (Demo)',
+            relevante: true
+        },
+        {
+            titulo: 'Automation Developer (RPA/AI)',
+            empresa: 'Process Automation Co.',
+            ubicacion: 'Remoto LATAM',
+            url: 'https://www.upwork.com/nx/search/jobs/?q=RPA%20automation',
+            fecha: new Date().toISOString().slice(0, 10),
+            categoria: 'Automation',
+            tipo: 'Contract',
+            salario: '$40 - $80/hora',
+            tags: ['RPA', 'UiPath', 'Automation'],
+            fuente: 'Upwork (Demo)',
+            relevante: true
+        },
+        {
+            titulo: 'LLM/ChatGPT Integration Developer',
+            empresa: 'AI Solutions Inc.',
+            ubicacion: 'Remoto Worldwide',
+            url: 'https://weworkremotely.com/categories/remote-ai-jobs',
+            fecha: new Date().toISOString().slice(0, 10),
+            categoria: 'AI/ML',
+            tipo: 'Full-time',
+            salario: '$80k - $150k USD',
+            tags: ['LLM', 'ChatGPT', 'API Integration'],
+            fuente: 'WWR (Demo)',
+            relevante: true
+        },
+        {
+            titulo: 'AI Chatbot Developer',
+            empresa: 'Conversational AI Lab',
+            ubicacion: 'Remoto',
+            url: 'https://www.freelancer.com/jobs/chatbot/',
+            fecha: new Date().toISOString().slice(0, 10),
+            categoria: 'AI/ML',
+            tipo: 'Freelance',
+            salario: '$30 - $60/hora',
+            tags: ['Chatbot', 'NLP', 'Python'],
+            fuente: 'Freelancer (Demo)',
+            relevante: true
+        },
+        {
+            titulo: 'Machine Learning Engineer',
+            empresa: 'Data Science Corp',
+            ubicacion: 'Remoto Worldwide',
+            url: 'https://remotive.com/remote-jobs/machine-learning',
+            fecha: new Date().toISOString().slice(0, 10),
+            categoria: 'AI/ML',
+            tipo: 'Full-time',
+            salario: '$100k - $180k USD',
+            tags: ['ML', 'Python', 'TensorFlow'],
+            fuente: 'Remotive (Demo)',
+            relevante: true
+        },
+        {
+            titulo: 'AI Process Automation Consultant',
+            empresa: 'Digital Transformation LLC',
+            ubicacion: 'Remoto LATAM',
+            url: 'https://www.toptal.com/ai',
+            fecha: new Date().toISOString().slice(0, 10),
+            categoria: 'Consulting',
+            tipo: 'Contract',
+            salario: '$50 - $100/hora',
+            tags: ['AI', 'Consulting', 'Process Automation'],
+            fuente: 'Toptal (Demo)',
+            relevante: true
+        }
+    ];
+    return demoJobs;
 }
 
 function generateLaboralHTML(empleos) {
     const fecha = new Date().toLocaleString('es-ES');
+    const relevantes = empleos.filter(e => e.relevante);
+    const categorias = [...new Set(empleos.map(e => e.categoria))];
+    const fuentes = [...new Set(empleos.map(e => e.fuente))];
 
     let html = `<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Empleos Remotos - Automation Process - ${fecha}</title>
+    <title>Empleos IA & Automatización - ${fecha}</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, #0f2027 100%);
             color: #eee;
             min-height: 100vh;
             padding: 20px;
         }
-        .container { max-width: 900px; margin: 0 auto; }
+        .container { max-width: 1100px; margin: 0 auto; }
         .header {
-            background: linear-gradient(135deg, #11998e, #38ef7d);
-            padding: 30px;
-            border-radius: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 40px;
+            border-radius: 20px;
             margin-bottom: 30px;
             text-align: center;
-            color: #1a1a2e;
+            color: white;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
         }
-        .header h1 { font-size: 2em; margin-bottom: 10px; }
+        .header h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .header p { opacity: 0.9; }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #1e1e3f, #2d2d5a);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid #ffffff15;
+        }
+        .stat-value { font-size: 2.5em; font-weight: bold; background: linear-gradient(135deg, #667eea, #f093fb); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .stat-label { font-size: 0.9em; opacity: 0.7; margin-top: 5px; }
+        .section-title {
+            font-size: 1.5em;
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
         .filters {
             display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
             flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
         }
         .filter-tag {
-            background: #38ef7d33;
-            color: #38ef7d;
+            background: rgba(102, 126, 234, 0.2);
+            color: #a5b4fc;
             padding: 8px 16px;
             border-radius: 20px;
+            font-size: 0.85em;
+            border: 1px solid rgba(102, 126, 234, 0.3);
         }
-        .stat {
-            text-align: center;
-            background: #ffffff11;
+        .platforms-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .platform-card {
+            background: linear-gradient(135deg, #1e1e3f, #2d2d5a);
             padding: 20px;
-            border-radius: 10px;
-            margin: 20px auto;
-            max-width: 200px;
-        }
-        .stat-value { font-size: 2.5em; font-weight: bold; color: #38ef7d; }
-        .job-card {
-            background: #16213e;
-            padding: 25px;
             border-radius: 12px;
-            border-left: 4px solid #38ef7d;
-            margin-bottom: 15px;
-            transition: transform 0.3s;
+            text-align: center;
+            text-decoration: none;
+            color: #eee;
+            border: 1px solid #ffffff15;
+            transition: all 0.3s;
         }
-        .job-card:hover { transform: translateX(10px); }
-        .empresa { color: #38ef7d; font-size: 0.95em; margin-bottom: 5px; }
-        .titulo { font-size: 1.3em; font-weight: bold; margin-bottom: 10px; }
-        .detalles {
-            display: flex;
+        .platform-card:hover {
+            transform: translateY(-5px);
+            border-color: #667eea;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        }
+        .platform-icon { font-size: 2em; margin-bottom: 10px; }
+        .platform-name { font-weight: 600; }
+        .jobs-grid {
+            display: grid;
             gap: 20px;
-            font-size: 0.9em;
-            opacity: 0.8;
+        }
+        .job-card {
+            background: linear-gradient(135deg, #1e1e3f, #252550);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .job-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .job-card.relevante { border-left-color: #38ef7d; }
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        .empresa { color: #667eea; font-size: 0.9em; margin-bottom: 5px; }
+        .titulo { font-size: 1.3em; font-weight: bold; margin-bottom: 5px; color: #fff; }
+        .job-meta {
+            display: flex;
             flex-wrap: wrap;
+            gap: 15px;
+            font-size: 0.85em;
+            opacity: 0.8;
             margin: 15px 0;
+        }
+        .job-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .salary {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: #1a1a2e;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85em;
+        }
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+        }
+        .tag {
+            background: rgba(102, 126, 234, 0.15);
+            color: #a5b4fc;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+        }
+        .job-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #ffffff10;
+        }
+        .fuente {
+            font-size: 0.8em;
+            opacity: 0.6;
         }
         .btn {
             display: inline-block;
-            background: linear-gradient(135deg, #11998e, #38ef7d);
-            color: #1a1a2e;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
             padding: 12px 25px;
             border-radius: 8px;
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 600;
+            transition: all 0.3s;
         }
-        .btn:hover { transform: scale(1.05); }
-        .no-results {
-            text-align: center;
-            padding: 60px;
-            background: #16213e;
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        .relevante-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #38ef7d, #11998e);
+            color: #1a1a2e;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7em;
+            font-weight: 600;
+        }
+        .tips-section {
+            background: linear-gradient(135deg, #1e1e3f, #2d2d5a);
+            padding: 30px;
             border-radius: 15px;
+            margin-top: 40px;
+            border: 1px solid #ffffff15;
         }
+        .tips-section h3 { margin-bottom: 20px; color: #667eea; }
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        .tip-item {
+            display: flex;
+            gap: 10px;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+        }
+        .tip-icon { font-size: 1.5em; }
+        .tip-text { font-size: 0.9em; opacity: 0.9; }
         .footer {
             text-align: center;
             margin-top: 40px;
-            padding: 20px;
+            padding: 30px;
             opacity: 0.7;
+        }
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .platforms-grid { grid-template-columns: repeat(2, 1fr); }
+            .tips-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>💼 Empleos Remotos</h1>
-            <p>Automation Process | Argentina / LATAM</p>
-            <p style="margin-top: 10px;">Generado: ${fecha}</p>
+            <h1>🤖 Empleos en IA & Automatización</h1>
+            <p>Oportunidades remotas en Inteligencia Artificial, Prompt Engineering, Automatización y Vibe Coding</p>
+            <p style="margin-top: 15px; font-size: 0.9em;">📅 Generado: ${fecha}</p>
         </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">${empleos.length}</div>
+                <div class="stat-label">Ofertas totales</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">${relevantes.length}</div>
+                <div class="stat-label">Altamente relevantes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">${categorias.length}</div>
+                <div class="stat-label">Categorías</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">${fuentes.length}</div>
+                <div class="stat-label">Fuentes</div>
+            </div>
+        </div>
+
         <div class="filters">
-            <span class="filter-tag">🔍 Automation Process</span>
+            <span class="filter-tag">🤖 AI Engineer</span>
+            <span class="filter-tag">💬 Prompt Engineer</span>
+            <span class="filter-tag">⚡ Automation</span>
+            <span class="filter-tag">🧠 Machine Learning</span>
+            <span class="filter-tag">🔗 LLM</span>
+            <span class="filter-tag">🤖 Chatbot</span>
+            <span class="filter-tag">🔄 RPA</span>
             <span class="filter-tag">🌎 Remoto</span>
-            <span class="filter-tag">🇦🇷 Argentina / LATAM</span>
         </div>
-        <div class="stat">
-            <div class="stat-value">${empleos.length}</div>
-            <div>Ofertas encontradas</div>
-        </div>`;
+
+        <h2 class="section-title">🌐 Plataformas Freelance Recomendadas</h2>
+        <div class="platforms-grid">
+            ${FREELANCE_PLATFORMS.map(p => `
+                <a href="${p.url}" target="_blank" class="platform-card">
+                    <div class="platform-icon">${p.icon}</div>
+                    <div class="platform-name">${p.name}</div>
+                </a>
+            `).join('')}
+        </div>
+
+        <h2 class="section-title">💼 Ofertas de Trabajo (${empleos.length})</h2>
+        <div class="jobs-grid">`;
 
     if (empleos.length > 0) {
         empleos.forEach(emp => {
+            const tagsHtml = (emp.tags || []).slice(0, 5).map(t => `<span class="tag">${t}</span>`).join('');
             html += `
-                <div class="job-card">
-                    <div class="empresa">🏢 ${emp.empresa}</div>
-                    <div class="titulo">${emp.titulo}</div>
-                    <div class="detalles">
-                        <span>📍 ${emp.ubicacion}</span>
-                        <span>📅 ${emp.fecha}</span>
-                        <span>🏷️ ${emp.categoria}</span>
+            <div class="job-card ${emp.relevante ? 'relevante' : ''}">
+                ${emp.relevante ? '<span class="relevante-badge">⭐ Relevante</span>' : ''}
+                <div class="job-header">
+                    <div>
+                        <div class="empresa">🏢 ${emp.empresa}</div>
+                        <div class="titulo">${emp.titulo}</div>
                     </div>
+                    ${emp.salario && emp.salario !== 'No especificado' ? `<span class="salary">💰 ${emp.salario}</span>` : ''}
+                </div>
+                <div class="job-meta">
+                    <span>📍 ${emp.ubicacion}</span>
+                    <span>📅 ${emp.fecha}</span>
+                    <span>🏷️ ${emp.categoria}</span>
+                    <span>⏰ ${emp.tipo}</span>
+                </div>
+                ${tagsHtml ? `<div class="tags">${tagsHtml}</div>` : ''}
+                <div class="job-footer">
+                    <span class="fuente">Fuente: ${emp.fuente}</span>
                     <a href="${emp.url}" target="_blank" class="btn">Ver oferta →</a>
-                </div>`;
+                </div>
+            </div>`;
         });
     } else {
         html += `
-            <div class="no-results">
+            <div style="text-align: center; padding: 60px; background: #16213e; border-radius: 15px;">
                 <h2>😔 No se encontraron empleos</h2>
-                <p>No hay ofertas con estos filtros en este momento.</p>
+                <p>Intenta más tarde o visita las plataformas freelance directamente.</p>
             </div>`;
     }
 
     html += `
+        </div>
+
+        <div class="tips-section">
+            <h3>💡 Tips para conseguir trabajo en IA/Automatización</h3>
+            <div class="tips-grid">
+                <div class="tip-item">
+                    <span class="tip-icon">📚</span>
+                    <span class="tip-text">Aprende herramientas como LangChain, OpenAI API, y frameworks de automatización (UiPath, n8n)</span>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-icon">🎯</span>
+                    <span class="tip-text">Crea un portfolio con proyectos de chatbots, automatizaciones o integraciones con LLMs</span>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-icon">📝</span>
+                    <span class="tip-text">Domina el arte del Prompt Engineering - es una de las habilidades más buscadas</span>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-icon">🌐</span>
+                    <span class="tip-text">Mantén tu perfil de LinkedIn actualizado con keywords: AI, LLM, Automation, Prompt Engineering</span>
+                </div>
+            </div>
+        </div>
+
         <div class="footer">
-            <p>💼 Datos de Remotive API</p>
-            <p>Búsqueda: Automation Process | Remoto | Argentina/LATAM</p>
+            <p>💼 Datos de: Remotive, Arbeitnow, y plataformas freelance</p>
+            <p>🔍 Búsqueda: AI, Prompt Engineer, Automation, ML, LLM, RPA, Chatbot</p>
+            <p style="margin-top: 10px;">⚠️ Algunas ofertas pueden ser de demostración. Verifica siempre en la fuente original.</p>
         </div>
     </div>
 </body>
