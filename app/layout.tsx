@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Vibe Coding - Guía de Desarrollo con IA',
-  description: 'Aprende a crear software colaborando con IA de forma segura y efectiva',
+  title: 'Vibe Coding Assistant - Desarrollo con IA',
+  description: 'Tu asistente para crear software colaborando con IA de forma segura y efectiva',
 };
 
 export default function RootLayout({
