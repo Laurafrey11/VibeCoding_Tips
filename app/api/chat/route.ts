@@ -28,7 +28,7 @@ Responde en español, de forma concisa y práctica. Usa emojis ocasionalmente pa
 export async function POST(req: Request) {
   const { messages } = await req.json();
 
-  const result = streamText({
+  const result = await streamText({
     model: openai('gpt-4o'),
     system: SYSTEM_PROMPT,
     messages,
