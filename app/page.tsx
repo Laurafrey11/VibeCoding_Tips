@@ -43,6 +43,61 @@ interface ChecklistItem {
   done: boolean;
 }
 
+// Función para extraer keywords del CV
+function extractKeywordsFromCV(text: string): string[] {
+  const keywords: string[] = [];
+  const t = text.toLowerCase();
+
+  // Tecnologías
+  const techs = [
+    'python', 'sql', 'r', 'java', 'javascript', 'typescript',
+    'power bi', 'tableau', 'looker', 'metabase', 'qlik',
+    'excel', 'google sheets',
+    'aws', 'azure', 'gcp', 'google cloud',
+    'spark', 'hadoop', 'databricks',
+    'airflow', 'dbt', 'fivetran', 'stitch',
+    'snowflake', 'redshift', 'bigquery', 'postgresql', 'mysql', 'mongodb',
+    'tensorflow', 'pytorch', 'scikit-learn', 'keras',
+    'pandas', 'numpy', 'matplotlib',
+    'docker', 'kubernetes', 'git',
+    'n8n', 'zapier', 'power automate', 'make', 'integromat',
+    'rpa', 'uipath', 'automation anywhere', 'blue prism',
+    'llm', 'gpt', 'langchain', 'openai', 'huggingface',
+    'machine learning', 'deep learning', 'nlp', 'computer vision',
+    'etl', 'elt', 'data pipeline',
+  ];
+
+  for (const tech of techs) {
+    if (t.includes(tech)) {
+      keywords.push(tech.charAt(0).toUpperCase() + tech.slice(1));
+    }
+  }
+
+  // Roles
+  if (t.includes('data analyst') || t.includes('analista de datos')) keywords.push('Data Analyst');
+  if (t.includes('data engineer') || t.includes('ingeniero de datos')) keywords.push('Data Engineer');
+  if (t.includes('data scientist') || t.includes('científico de datos')) keywords.push('Data Scientist');
+  if (t.includes('machine learning') || t.includes('ml engineer')) keywords.push('ML Engineer');
+  if (t.includes('bi developer') || t.includes('business intelligence')) keywords.push('BI Developer');
+  if (t.includes('automation') || t.includes('automatización')) keywords.push('Automation');
+  if (t.includes('ai engineer') || t.includes('artificial intelligence')) keywords.push('AI Engineer');
+
+  // Años de experiencia
+  const expMatch = t.match(/(\d+)\s*(años|years|año|year)/);
+  if (expMatch) keywords.push(`${expMatch[1]}+ años exp`);
+
+  // Idiomas
+  if (t.includes('inglés') || t.includes('english')) keywords.push('Inglés');
+  if (t.includes('portugués') || t.includes('portuguese')) keywords.push('Portugués');
+
+  // Nivel
+  if (t.includes('senior') || t.includes('sr')) keywords.push('Senior');
+  if (t.includes('lead') || t.includes('líder')) keywords.push('Lead');
+  if (t.includes('junior') || t.includes('jr')) keywords.push('Junior');
+
+  return [...new Set(keywords)].slice(0, 12);
+}
+
 const CHECKLIST_INICIAL: ChecklistItem[] = [
   {
     id: '1',
@@ -560,18 +615,35 @@ export default function Home() {
           </div>
 
           <div className="cv-section">
-            <h3>📄 Personaliza tu búsqueda con tu CV</h3>
-            <p>Pega un resumen de tu experiencia para encontrar empleos más relevantes:</p>
+            <h3>📄 Describe tu perfil profesional</h3>
+            <p>Incluye: años de experiencia, tecnologías, idiomas, industrias, rol actual o deseado</p>
             <textarea
               className="cv-textarea"
-              placeholder="Ej: 5 años de experiencia en análisis de datos con Python, SQL, Power BI. Conocimientos en Machine Learning y automatización de procesos con n8n y Zapier. Inglés avanzado..."
+              placeholder="Ejemplo: 4 años como Data Analyst. Manejo avanzado de Python, SQL, Power BI y Tableau. Experiencia en ETL con Airflow. Conocimientos básicos de Machine Learning con scikit-learn. Trabajé en fintech y e-commerce. Busco transición a roles de AI/ML o Data Engineering. Inglés avanzado (B2). Disponibilidad full-time remoto."
               value={cvText}
               onChange={(e) => setCvText(e.target.value)}
-              rows={4}
+              rows={5}
             />
-            <button className="btn" onClick={buscarEmpleos} disabled={loadingEmpleos}>
-              🔍 Buscar con mi perfil
-            </button>
+            <div className="cv-actions">
+              <button className="btn btn-primary" onClick={buscarEmpleos} disabled={loadingEmpleos || !cvText.trim()}>
+                {loadingEmpleos ? '🔍 Analizando perfil...' : '🎯 Buscar empleos para mi perfil'}
+              </button>
+              {cvText && (
+                <button className="btn btn-secondary" onClick={() => { setCvText(''); buscarEmpleos(); }}>
+                  Ver todos los empleos
+                </button>
+              )}
+            </div>
+            {cvText && (
+              <div className="cv-analysis">
+                <strong>🔍 Keywords detectados:</strong>
+                <div className="cv-keywords">
+                  {extractKeywordsFromCV(cvText).map((kw, i) => (
+                    <span key={i} className="keyword-tag">{kw}</span>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="filters-info">

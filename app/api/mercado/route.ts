@@ -63,6 +63,82 @@ const FINANCIAL_SYMBOLS = {
   ],
 };
 
+// Analizar perfil del CV para personalizar búsqueda
+function analyzeCVProfile(cvText: string): { searchQueries: string[]; priorityKeywords: string[]; level: string } {
+  const queries: string[] = [];
+  const keywords: string[] = [];
+  let level = 'mid';
+
+  // Detectar nivel de experiencia
+  const yearsMatch = cvText.match(/(\d+)\s*(años|years|año|year)/);
+  const years = yearsMatch ? parseInt(yearsMatch[1]) : 0;
+
+  if (years >= 7 || cvText.includes('senior') || cvText.includes('lead') || cvText.includes('principal')) {
+    level = 'senior';
+  } else if (years <= 2 || cvText.includes('junior') || cvText.includes('entry')) {
+    level = 'junior';
+  }
+
+  // Detectar área de especialización y generar queries
+  if (cvText.includes('machine learning') || cvText.includes(' ml ') || cvText.includes('deep learning')) {
+    queries.push('machine learning engineer', 'ml engineer', 'data scientist machine learning');
+    keywords.push('machine learning', 'ml', 'deep learning');
+  }
+
+  if (cvText.includes('data engineer') || cvText.includes('etl') || cvText.includes('pipeline') || cvText.includes('airflow') || cvText.includes('spark')) {
+    queries.push('data engineer', 'etl developer', 'analytics engineer', 'data platform');
+    keywords.push('etl', 'data pipeline', 'spark', 'airflow');
+  }
+
+  if (cvText.includes('data analyst') || cvText.includes('analista') || cvText.includes('business intelligence') || cvText.includes('bi ')) {
+    queries.push('data analyst', 'business intelligence', 'bi developer', 'analytics');
+    keywords.push('data analyst', 'bi', 'analytics');
+  }
+
+  if (cvText.includes('power bi') || cvText.includes('tableau') || cvText.includes('looker')) {
+    queries.push('power bi developer', 'tableau developer', 'bi analyst', 'data visualization');
+    keywords.push('power bi', 'tableau', 'visualization');
+  }
+
+  if (cvText.includes('automation') || cvText.includes('automatización') || cvText.includes('rpa') || cvText.includes('n8n') || cvText.includes('zapier')) {
+    queries.push('automation engineer', 'rpa developer', 'process automation', 'workflow automation');
+    keywords.push('automation', 'rpa', 'workflow');
+  }
+
+  if (cvText.includes('ai ') || cvText.includes('artificial intelligence') || cvText.includes('llm') || cvText.includes('gpt') || cvText.includes('langchain')) {
+    queries.push('ai engineer', 'llm engineer', 'generative ai', 'prompt engineer');
+    keywords.push('ai', 'llm', 'gpt', 'generative ai');
+  }
+
+  if (cvText.includes('python')) {
+    queries.push('python developer', 'python data');
+    keywords.push('python');
+  }
+
+  if (cvText.includes('sql')) keywords.push('sql');
+  if (cvText.includes('aws')) keywords.push('aws');
+  if (cvText.includes('azure')) keywords.push('azure');
+  if (cvText.includes('gcp') || cvText.includes('google cloud')) keywords.push('gcp');
+  if (cvText.includes('snowflake')) keywords.push('snowflake');
+  if (cvText.includes('databricks')) keywords.push('databricks');
+
+  // Si no detectó nada específico, usar queries generales
+  if (queries.length === 0) {
+    queries.push('data analyst', 'data engineer', 'business intelligence');
+  }
+
+  // Agregar nivel a las queries
+  if (level === 'senior') {
+    queries.unshift('senior data', 'lead data', 'staff engineer');
+  }
+
+  return {
+    searchQueries: [...new Set(queries)].slice(0, 10),
+    priorityKeywords: [...new Set(keywords)],
+    level
+  };
+}
+
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const tipo = searchParams.get('tipo') || 'laboral';
@@ -79,35 +155,30 @@ export async function GET(req: Request) {
 
 async function buscarEmpleosExperto(cvText: string) {
   const empleos: any[] = [];
+  const cvLower = cvText.toLowerCase();
 
-  const searchQueries = [
-    'machine learning engineer',
-    'ai engineer',
-    'data scientist',
-    'mlops engineer',
-    'data engineer',
-    'analytics engineer',
-    'business intelligence',
-    'data analyst senior',
-    'automation engineer',
-    'rpa developer',
-    'python developer data',
-    'etl developer',
-    'power platform',
-    'tableau developer',
-  ];
+  // Analizar CV para determinar búsquedas personalizadas
+  const cvAnalysis = analyzeCVProfile(cvLower);
 
-  const cvKeywords = cvText.toLowerCase();
-  const priorityKeywords: string[] = [];
+  // Si hay CV, usar búsquedas personalizadas, sino usar default
+  const searchQueries = cvAnalysis.searchQueries.length > 0
+    ? cvAnalysis.searchQueries
+    : [
+        'machine learning engineer',
+        'ai engineer',
+        'data scientist',
+        'mlops engineer',
+        'data engineer',
+        'analytics engineer',
+        'business intelligence',
+        'data analyst senior',
+        'automation engineer',
+        'rpa developer',
+        'python developer data',
+        'etl developer',
+      ];
 
-  if (cvKeywords.includes('python')) priorityKeywords.push('python');
-  if (cvKeywords.includes('sql')) priorityKeywords.push('sql');
-  if (cvKeywords.includes('machine learning') || cvKeywords.includes('ml')) priorityKeywords.push('machine learning');
-  if (cvKeywords.includes('power bi')) priorityKeywords.push('power bi');
-  if (cvKeywords.includes('tableau')) priorityKeywords.push('tableau');
-  if (cvKeywords.includes('aws')) priorityKeywords.push('aws');
-  if (cvKeywords.includes('azure')) priorityKeywords.push('azure');
-  if (cvKeywords.includes('automation')) priorityKeywords.push('automation');
+  const priorityKeywords = cvAnalysis.priorityKeywords;
 
   for (const query of searchQueries.slice(0, 8)) {
     try {
