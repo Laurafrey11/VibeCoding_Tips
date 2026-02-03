@@ -1,156 +1,274 @@
-# Vibe Coding - Guía Interactiva con Asistente IA
+# 🚀 Vibe Coding Assistant
 
-## Aplicación web con chatbot inteligente y módulos de mercado
+**Aplicación web para aprender y practicar Vibe Coding** - desarrollo colaborativo con IA.
 
----
-
-## Descripción
-
-Aplicación web que combina:
-- Guía interactiva de Vibe Coding y uso seguro de IA
-- Chatbot con comandos secretos
-- **Módulo de Mercado Financiero** (consulta de acciones, reportes)
-- **Módulo de Mercado Laboral** (optimización CV, búsqueda de empleos)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Laurafrey11/VibeCoding_Tips)
 
 ---
 
-## Inicio Rápido
+## 📋 Características Principales
+
+### 1. 📚 Guía Completa de Vibe Coding
+- **Las 6 prácticas fundamentales** del desarrollo con IA
+- **TDD (Test-Driven Development):** Red → Green → Refactor
+- Cómo escribir **prompts efectivos**
+- **Seguridad y sandbox** - mejores prácticas
+- Creación de **PRD** (Product Requirements Document)
+- Errores comunes a evitar
+
+### 2. ✅ Checklist Interactivo
+- **10 pasos** del flujo completo de Vibe Coding
+- **Progreso persistente** (guardado en localStorage)
+- Barra de progreso visual
+- Tips específicos para cada paso
+- Click para marcar como completado
+
+### 3. 💬 Copiloto IA (GPT-4o)
+Un asistente que **realmente hace Vibe Coding contigo**:
+- Pregunta antes de codear (clarifica requisitos)
+- Genera **mini-PRD** antes de implementar
+- Escribe **tests primero** (TDD)
+- Implementa de forma **incremental**
+- Revisa código contigo en cada paso
+- Advierte sobre temas de **seguridad**
+
+### 4. 🔮 Modo Secreto
+Escribe **"mercado"** en el chat para desbloquear:
+
+#### 💼 Mercado Laboral
+- Empleos remotos **$2,500+ USD/mes**
+- Enfoque: **Data Analyst → IA/Automation**
+- **Búsqueda inteligente con CV:**
+  - Analiza tu perfil profesional automáticamente
+  - Detecta tecnologías, años de experiencia, nivel
+  - Muestra keywords detectados en tiempo real
+  - Personaliza búsquedas según tu perfil
+  - Prioriza empleos que matchean tus skills
+
+#### 📈 Mercado Financiero
+Análisis de inversiones **mediano plazo** (6-24 meses):
+
+| Sector | Activos |
+|--------|---------|
+| 🪙 Crypto | DOT, ETH, ADA |
+| 💻 Tech | GOOGL, MSFT, AMZN, NVDA, AMD, TSLA, AAPL, ADBE, TSM |
+| 🏦 Finance | JPM, V, AXP, BRK-B, B |
+| 🏥 Healthcare | UNH, ABBV, CRSP |
+| 🛒 Consumer | KO, PG, PEP |
+| ⚡ Energy | AES, XLE |
+| 📡 Telecom | T (AT&T) |
+| 🇦🇷 Argentina | GLOB, YPF, BMA |
+| 📊 ETFs | SPY, QQQ, XLK, XLV, DIA, GLD, CIBR, SMH, SLV, EWZ, ICLN, IBIT |
+
+Cada activo incluye:
+- Precio actual en tiempo real
+- Cambio % diario/semanal/mensual
+- Nivel de riesgo (Alto/Medio/Bajo)
+- **Recomendación inteligente** con acción sugerida
+
+---
+
+## 🛠️ Stack Tecnológico
+
+| Tecnología | Uso |
+|------------|-----|
+| **Next.js 16** | Framework (App Router) |
+| **TypeScript** | Tipado estático |
+| **OpenAI GPT-4o** | Chatbot IA |
+| **Vercel AI SDK** | Streaming de respuestas |
+| **CSS Variables** | Estilos (sin frameworks) |
+| **Vercel** | Hosting y deploy |
+
+### APIs Externas
+- **OpenAI** - Chat inteligente
+- **Yahoo Finance** - Datos de mercado
+- **Remotive** - Empleos remotos
+- **Arbeitnow** - Empleos adicionales
+
+---
+
+## 🚀 Instalación Local
 
 ```bash
-# Abrir en navegador
-Doble click en index.html
-# O servir con Live Server
+# 1. Clonar repositorio
+git clone https://github.com/Laurafrey11/VibeCoding_Tips.git
+cd VibeCoding_Tips
+
+# 2. Instalar dependencias
+npm install
+
+# 3. Configurar variables de entorno
+cp .env.example .env.local
+
+# 4. Agregar tu API key de OpenAI en .env.local
+OPENAI_API_KEY=sk-tu-api-key-aqui
+
+# 5. Ejecutar en desarrollo
+npm run dev
 ```
+
+Abrir **http://localhost:3000**
 
 ---
 
-## Funcionalidades Secretas
+## 🔑 Variables de Entorno
 
-### Activar módulo de mercado:
-1. Abrir el chat (botón inferior derecha)
-2. Escribir: `mercado`
-3. Seleccionar: Financiero o **Laboral**
+| Variable | Descripción | Requerida |
+|----------|-------------|-----------|
+| `OPENAI_API_KEY` | API key de OpenAI | ✅ Sí |
 
----
-
-## Módulo Mercado Laboral
-
-### Opciones disponibles:
-
-| Opción | Función |
-|--------|---------|
-| 📄 **Optimización de CV** | Análisis ATS + metodología STAR |
-| 🔍 **Búsqueda de Ofertas** | Recomendaciones personalizadas según tu CV |
-| 📊 **Generar Reporte** | Descarga HTML con ofertas actuales |
-
-### Cómo funciona la búsqueda adaptada:
-
-```
-Tu CV → Sistema extrae automáticamente:
-         ├─ Skills (Power BI, SQL, Python...)
-         ├─ Certificaciones (PL-300, PL-600...)
-         ├─ Área profesional
-         ├─ Nivel (Junior/Mid/Senior)
-         ├─ Ciudadanía EU
-         └─ Nivel de inglés
-              ↓
-         Genera recomendaciones:
-         ├─ Cargos específicos para vos
-         ├─ Plataformas donde buscar
-         ├─ Keywords para alertas
-         └─ Rangos salariales
-```
+Obtener en: https://platform.openai.com/api-keys
 
 ---
 
-## Estructura del Proyecto
+## 📁 Estructura del Proyecto
 
 ```
-mi-proyecto/
-├── index.html              # Página principal
-├── app.js                  # Lógica del chat + módulos
-├── styles.css              # Estilos
-├── README.md               # Este archivo
+VibeCoding_Tips/
+├── app/
+│   ├── api/
+│   │   ├── chat/
+│   │   │   └── route.ts          # API chatbot (OpenAI GPT-4o)
+│   │   └── mercado/
+│   │       └── route.ts          # API mercado laboral/financiero
+│   ├── globals.css               # Estilos globales
+│   ├── layout.tsx                # Layout principal
+│   └── page.tsx                  # Página principal (toda la app)
 │
-├── docs/
-│   ├── mercado-laboral-sistema.md    # Doc técnica completa
-│   ├── MANUAL-MERCADO-LABORAL.md     # Manual de usuario
-│   └── PRUEBAS-MERCADO-LABORAL.md    # Casos de prueba
+├── docs/                         # Documentación adicional
+├── public/                       # Assets estáticos
 │
-└── reportes/               # Reportes generados (HTML)
+├── .env.example                  # Ejemplo de variables de entorno
+├── .env.local                    # Variables de entorno (NO commitear)
+├── .gitignore                    # Archivos ignorados por git
+├── next.config.js                # Configuración Next.js
+├── package.json                  # Dependencias npm
+├── tsconfig.json                 # Configuración TypeScript
+├── vercel.json                   # Configuración Vercel
+└── README.md                     # Este archivo
 ```
 
 ---
 
-## Tecnologías
+## 🔮 Guía de Funcionalidades Secretas
 
-- **Frontend**: HTML5, CSS3, JavaScript Vanilla
-- **APIs**: Finnhub (stocks), Remotive, Arbeitnow, Himalayas (empleos)
-- **Sin dependencias externas**
+### Activar Modo Mercado
+1. Ir a la pestaña **"💬 Copiloto IA"**
+2. Escribir: **mercado**
+3. Se desbloquean las pestañas **💼 Laboral** y **📈 Financiero**
 
----
+### Búsqueda Personalizada de Empleos
+1. Ir a **💼 Laboral**
+2. En el textarea, pegar tu perfil profesional:
+   ```
+   5 años como Data Analyst. Python, SQL, Power BI avanzado.
+   Experiencia en ETL con Airflow. Conocimientos de Machine Learning
+   con scikit-learn. Busco transición a AI/ML. Inglés B2.
+   ```
+3. Ver los **keywords detectados** automáticamente
+4. Click en **"🎯 Buscar empleos para mi perfil"**
 
-## Módulo Laboral - Funciones Principales
-
-### extraerPerfilDeCV(texto)
-Extrae automáticamente del CV:
-- Hard skills, soft skills, metodologías
-- Certificaciones Microsoft/AWS
-- Área profesional y nivel
-- Ciudadanía EU e idioma inglés
-
-### analizarYOptimizarCV()
-- Calcula Match ATS (%)
-- Identifica keywords faltantes
-- Genera críticas directas
-- Convierte logros a formato STAR
-
-### generarBusquedaPersonalizada(perfil)
-- Recomienda cargos según área detectada
-- Selecciona plataformas según ubicación/ciudadanía
-- Genera keywords para alertas
-- Estima rangos salariales
+### Análisis Financiero
+1. Ir a **📈 Financiero**
+2. Los datos se cargan automáticamente
+3. Cada activo muestra:
+   - Precio y cambio %
+   - Recomendación (Comprar/Mantener/Esperar/Vender)
+   - Nivel de riesgo
 
 ---
 
-## Documentación
+## 📊 Checklist de Vibe Coding
 
-| Archivo | Contenido |
-|---------|-----------|
-| [mercado-laboral-sistema.md](docs/mercado-laboral-sistema.md) | Arquitectura, system prompt, análisis de CV ejemplo |
-| [MANUAL-MERCADO-LABORAL.md](docs/MANUAL-MERCADO-LABORAL.md) | Guía de usuario paso a paso |
-| [PRUEBAS-MERCADO-LABORAL.md](docs/PRUEBAS-MERCADO-LABORAL.md) | Test suite con casos de prueba |
+Los 10 pasos para desarrollar con IA:
+
+| # | Paso | Descripción |
+|---|------|-------------|
+| 1 | **Definir el Problema** | Qué resuelves y para quién |
+| 2 | **Crear PRD** | Documentar requisitos |
+| 3 | **Elegir Stack** | Tecnologías a usar |
+| 4 | **Configurar Entorno Seguro** | Sandbox y variables de entorno |
+| 5 | **Escribir Tests (Red)** | Tests que fallen primero |
+| 6 | **Implementar (Green)** | Código mínimo para pasar tests |
+| 7 | **Refactorizar (Blue)** | Mejorar sin romper tests |
+| 8 | **Revisar Código** | Entender cada línea |
+| 9 | **Documentar** | README, comentarios, API docs |
+| 10 | **Iterar** | Repetir para cada feature |
 
 ---
 
-## Uso del System Prompt (para Claude)
+## 🚀 Deploy en Vercel
 
-El archivo `docs/mercado-laboral-sistema.md` contiene un System Prompt que podés usar para configurar Claude como asesor de carrera:
+### Opción 1: Un click
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Laurafrey11/VibeCoding_Tips)
 
+### Opción 2: Manual
+1. Push a GitHub
+2. Ir a [vercel.com/new](https://vercel.com/new)
+3. Importar repositorio
+4. Agregar variable: `OPENAI_API_KEY`
+5. Deploy
+
+---
+
+## 🔧 Scripts Disponibles
+
+```bash
+npm run dev      # Desarrollo local (http://localhost:3000)
+npm run build    # Build de producción
+npm run start    # Servidor de producción
+npm run lint     # Linter
 ```
-Pegá el System Prompt en Claude → Adjuntá tu CV → Recibí análisis profesional
-```
 
 ---
 
-## Próximas Mejoras (TODO)
+## 📝 Changelog
 
-- [ ] Integración con LinkedIn API
-- [ ] Guardado de CVs en localStorage
-- [ ] Comparador de múltiples puestos
-- [ ] Exportar análisis a PDF
-- [ ] Modo oscuro/claro
+### v2.0.0 (2025-02)
+- ✨ Migración a Next.js + OpenAI
+- ✨ Copiloto IA con GPT-4o
+- ✨ Checklist interactivo
+- ✨ Modo secreto (mercado)
+- ✨ Búsqueda de empleos con análisis de CV
+- ✨ Análisis financiero con recomendaciones
+- ✨ Deploy en Vercel
+
+### v1.0.0 (2025-01)
+- 🎉 Versión inicial (HTML/CSS/JS)
+- 📚 Guía de Vibe Coding
+- 💬 Chatbot básico
 
 ---
 
-## Créditos
+## 🤝 Contribuir
 
-- **Desarrollado con**: Vibe Coding + Claude
-- **Autor**: María Laura Freyre
-- **Fecha**: 2025
+1. Fork el repositorio
+2. Crear rama: `git checkout -b feature/nueva-funcionalidad`
+3. Commit: `git commit -m 'feat: nueva funcionalidad'`
+4. Push: `git push origin feature/nueva-funcionalidad`
+5. Abrir Pull Request
 
 ---
 
-## Licencia
+## 👤 Autora
 
-Uso personal y educativo.
+**María Laura Freyre** - [@Laurafrey11](https://github.com/Laurafrey11)
+
+---
+
+## 🙏 Créditos
+
+- [Andrej Karpathy](https://twitter.com/karpathy) - Concepto de Vibe Coding
+- [Vercel](https://vercel.com) - Hosting y AI SDK
+- [OpenAI](https://openai.com) - GPT-4o
+- [Claude](https://claude.ai) - Desarrollo asistido
+
+---
+
+## 📄 Licencia
+
+MIT License - Ver [LICENSE](LICENSE) para detalles.
+
+---
+
+**Hecho con 💜 usando Vibe Coding**
