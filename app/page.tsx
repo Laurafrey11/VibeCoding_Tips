@@ -34,7 +34,7 @@ export default function Home() {
     {
       role: 'assistant',
       content:
-        '¡Hola! 👋 Soy tu asistente de Vibe Coding. Puedo ayudarte con:\n\n• Buenas prácticas de desarrollo con IA\n• TDD (Test-Driven Development)\n• Cómo escribir prompts efectivos\n• Seguridad y sandbox\n• Documentación y PRD\n\n💡 **Tip secreto:** Escribe "mercado" para descubrir oportunidades laborales y financieras.',
+        '¡Hola! 👋 Soy tu copiloto de Vibe Coding.\n\n🚀 **¿Qué construimos hoy?**\n\nCuéntame tu idea y te guío paso a paso:\n• Definimos el plan juntos\n• Escribimos tests primero\n• Implementamos de forma incremental\n• Revisamos cada paso\n\n📝 Ejemplos para empezar:\n• "Quiero hacer una landing page"\n• "Necesito una API de autenticación"\n• "Ayúdame a crear un dashboard"\n\n💡 Escribe **"mercado"** para ver oportunidades laborales y financieras.',
     },
   ]);
   const [input, setInput] = useState('');
