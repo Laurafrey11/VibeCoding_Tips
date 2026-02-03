@@ -319,10 +319,24 @@ export default function Home() {
     }
   };
 
+  // Auto-cargar AMBOS mercados cuando se desbloquea el modo secreto
   useEffect(() => {
-    if (activeTab === 'laboral' && empleos.length === 0) {
+    if (secretMode) {
+      if (activos.length === 0) {
+        obtenerActivos();
+      }
+      if (empleos.length === 0) {
+        buscarEmpleos();
+      }
+    }
+  }, [secretMode]);
+
+  // Recargar si se entra a la pestaña y está vacío
+  useEffect(() => {
+    if (secretMode && activeTab === 'laboral' && empleos.length === 0) {
       buscarEmpleos();
-    } else if (activeTab === 'financiero' && activos.length === 0) {
+    }
+    if (secretMode && activeTab === 'financiero' && activos.length === 0) {
       obtenerActivos();
     }
   }, [activeTab]);

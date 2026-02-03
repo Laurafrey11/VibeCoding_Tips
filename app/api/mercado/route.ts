@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-// LISTA COMPLETA DE SÍMBOLOS
+// LISTA COMPLETA DE SÍMBOLOS - ACTUALIZADA
 const FINANCIAL_SYMBOLS = {
   crypto: [
     { symbol: 'DOT-USD', name: 'Polkadot', desc: 'Blockchain de interoperabilidad. Potencial alto si DeFi crece.' },
@@ -9,56 +9,57 @@ const FINANCIAL_SYMBOLS = {
   ],
   tech: [
     { symbol: 'GOOGL', name: 'Alphabet (Google)', desc: 'Domina búsqueda y YouTube. Fuerte en IA con Gemini.' },
-    { symbol: 'MSFT', name: 'Microsoft', desc: 'Azure crece fuerte. Inversión en OpenAI es clave.' },
+    { symbol: 'MSFT', name: 'Microsoft', desc: 'Azure crece fuerte. Inversión en OpenAI es estratégica.' },
     { symbol: 'AMZN', name: 'Amazon', desc: 'AWS líder en cloud. E-commerce sigue dominante.' },
     { symbol: 'NVDA', name: 'NVIDIA', desc: 'Monopolio de GPUs para IA. Demanda insaciable.' },
     { symbol: 'AMD', name: 'AMD', desc: 'Competidor de Intel/NVIDIA. Ganando market share.' },
-    { symbol: 'TSLA', name: 'Tesla', desc: 'EVs + energía + robotaxis. Alta volatilidad.' },
+    { symbol: 'TSLA', name: 'Tesla', desc: 'EVs + energía + robotaxis + IA. Alta volatilidad.' },
     { symbol: 'AAPL', name: 'Apple', desc: 'Ecosistema premium. Servicios crecen vs hardware.' },
     { symbol: 'ADBE', name: 'Adobe', desc: 'Creatividad + IA generativa. Firefly prometedor.' },
-    { symbol: 'TSM', name: 'Taiwan Semi', desc: 'Fabrica chips para todos. Riesgo geopolítico.' },
+    { symbol: 'TSM', name: 'Taiwan Semiconductor', desc: 'Fabrica chips para todos. Riesgo geopolítico.' },
   ],
   finance: [
-    { symbol: 'JPM', name: 'JPMorgan Chase', desc: 'Banco más grande USA. Bien gestionado.' },
-    { symbol: 'V', name: 'Visa', desc: 'Duopolio de pagos. Cashless trend favorece.' },
-    { symbol: 'AXP', name: 'American Express', desc: 'Premium cards. Cliente de alto valor.' },
+    { symbol: 'JPM', name: 'JPMorgan Chase', desc: 'Banco más grande USA. Excelente gestión.' },
+    { symbol: 'V', name: 'Visa', desc: 'Duopolio de pagos global. Cashless trend favorece.' },
+    { symbol: 'AXP', name: 'American Express', desc: 'Tarjetas premium. Cliente de alto valor.' },
     { symbol: 'BRK-B', name: 'Berkshire Hathaway', desc: 'Warren Buffett. Diversificación automática.' },
+    { symbol: 'B', name: 'Barnes Group', desc: 'Industrial diversificado. Aeroespacial y manufactura.' },
   ],
   healthcare: [
     { symbol: 'UNH', name: 'UnitedHealth', desc: 'Mayor aseguradora USA. Optum crece fuerte.' },
-    { symbol: 'ABBV', name: 'AbbVie', desc: 'Farmacéutica. Transición post-Humira.' },
-    { symbol: 'CRSP', name: 'CRISPR Therapeutics', desc: 'Edición genética. Alto riesgo/recompensa.' },
+    { symbol: 'ABBV', name: 'AbbVie', desc: 'Farmacéutica sólida. Transición post-Humira exitosa.' },
+    { symbol: 'CRSP', name: 'CRISPR Therapeutics', desc: 'Edición genética revolucionaria. Alto riesgo/recompensa.' },
   ],
   consumer: [
-    { symbol: 'KO', name: 'Coca-Cola', desc: 'Dividend King. Defensiva en recesiones.' },
-    { symbol: 'PG', name: 'Procter & Gamble', desc: 'Productos esenciales. Pricing power.' },
+    { symbol: 'KO', name: 'Coca-Cola', desc: 'Dividend King 60+ años. Defensiva en recesiones.' },
+    { symbol: 'PG', name: 'Procter & Gamble', desc: 'Productos esenciales. Pricing power demostrado.' },
     { symbol: 'PEP', name: 'PepsiCo', desc: 'Bebidas + Frito-Lay. Más diversificada que KO.' },
   ],
   energy: [
-    { symbol: 'AES', name: 'AES Corporation', desc: 'Transición a renovables. Crecimiento en LatAm.' },
-    { symbol: 'XLE', name: 'Energy Select ETF', desc: 'Sector energético USA. Cíclico con petróleo.' },
+    { symbol: 'AES', name: 'AES Corporation', desc: 'Transición agresiva a renovables. Crecimiento en LatAm.' },
+    { symbol: 'XLE', name: 'Energy Select ETF', desc: 'Sector energético USA completo. Cíclico con petróleo.' },
   ],
   telecom: [
-    { symbol: 'T', name: 'AT&T', desc: 'Alto dividendo ~6%. Deuda siendo reducida.' },
+    { symbol: 'T', name: 'AT&T', desc: 'Alto dividendo ~6%. Deuda siendo reducida agresivamente.' },
   ],
   argentina: [
-    { symbol: 'GLOB', name: 'Globant', desc: 'Tech argentina global. Servicios de IA creciendo.' },
-    { symbol: 'YPF', name: 'YPF', desc: 'Vaca Muerta potencial. Riesgo político argentino.' },
-    { symbol: 'BYMA.BA', name: 'BYMA', desc: 'Bolsa argentina. Beneficia si mercado crece.' },
+    { symbol: 'GLOB', name: 'Globant', desc: 'Tech argentina global. Servicios de IA en expansión.' },
+    { symbol: 'YPF', name: 'YPF', desc: 'Vaca Muerta es el futuro. Riesgo político argentino.' },
+    { symbol: 'BMA', name: 'Banco Macro', desc: 'Banco argentino líder. Beneficia si economía mejora.' },
   ],
   etfs: [
     { symbol: 'SPY', name: 'S&P 500 ETF', desc: 'Top 500 USA. Diversificación total en una compra.' },
-    { symbol: 'QQQ', name: 'NASDAQ 100', desc: 'Top 100 tech. Más volátil que SPY.' },
-    { symbol: 'XLK', name: 'Tech Select', desc: 'Solo tecnología. Concentrado en AAPL/MSFT.' },
-    { symbol: 'XLV', name: 'Healthcare', desc: 'Sector salud. Defensivo y en crecimiento.' },
-    { symbol: 'DIA', name: 'Dow Jones', desc: '30 blue chips. Menos tech que SPY.' },
-    { symbol: 'GLD', name: 'Gold ETF', desc: 'Oro físico. Cobertura contra inflación.' },
-    { symbol: 'CIBR', name: 'Cybersecurity', desc: 'Empresas de ciberseguridad. Demanda creciente.' },
-    { symbol: 'SMH', name: 'Semiconductors', desc: 'Fabricantes de chips. Volátil pero esencial.' },
-    { symbol: 'SLV', name: 'Silver ETF', desc: 'Plata física. Más volátil que oro.' },
-    { symbol: 'EWZ', name: 'Brazil ETF', desc: 'Mercado brasileño. Exposición LatAm.' },
-    { symbol: 'ICLN', name: 'Clean Energy', desc: 'Energías limpias. Largo plazo prometedor.' },
-    { symbol: 'IBIT', name: 'iShares Bitcoin', desc: 'Bitcoin spot ETF. Exposición regulada a BTC.' },
+    { symbol: 'QQQ', name: 'NASDAQ 100', desc: 'Top 100 tech. Mayor exposición a crecimiento.' },
+    { symbol: 'XLK', name: 'Tech Select', desc: 'Sector tecnológico concentrado. AAPL/MSFT dominan.' },
+    { symbol: 'XLV', name: 'Healthcare Select', desc: 'Sector salud USA. Defensivo y en crecimiento.' },
+    { symbol: 'DIA', name: 'Dow Jones ETF', desc: '30 blue chips industriales. Menos volátil.' },
+    { symbol: 'GLD', name: 'Gold ETF', desc: 'Oro físico. Cobertura contra inflación y crisis.' },
+    { symbol: 'CIBR', name: 'Cybersecurity ETF', desc: 'Empresas de ciberseguridad. Demanda estructural.' },
+    { symbol: 'SMH', name: 'Semiconductor ETF', desc: 'Fabricantes de chips. Volátil pero esencial.' },
+    { symbol: 'SLV', name: 'Silver ETF', desc: 'Plata física. Más volátil que oro, uso industrial.' },
+    { symbol: 'EWZ', name: 'Brazil ETF', desc: 'Mercado brasileño completo. Proxy LatAm.' },
+    { symbol: 'ICLN', name: 'Clean Energy ETF', desc: 'Energías limpias global. Tendencia a largo plazo.' },
+    { symbol: 'IBIT', name: 'iShares Bitcoin ETF', desc: 'Bitcoin spot de BlackRock. Exposición regulada.' },
   ],
 };
 
@@ -79,7 +80,6 @@ export async function GET(req: Request) {
 async function buscarEmpleosExperto(cvText: string) {
   const empleos: any[] = [];
 
-  // Keywords priorizados para Data → IA → Automation
   const searchQueries = [
     'machine learning engineer',
     'ai engineer',
@@ -97,7 +97,6 @@ async function buscarEmpleosExperto(cvText: string) {
     'tableau developer',
   ];
 
-  // Si hay CV, extraer keywords
   const cvKeywords = cvText.toLowerCase();
   const priorityKeywords: string[] = [];
 
@@ -110,7 +109,6 @@ async function buscarEmpleosExperto(cvText: string) {
   if (cvKeywords.includes('azure')) priorityKeywords.push('azure');
   if (cvKeywords.includes('automation')) priorityKeywords.push('automation');
 
-  // API Remotive - Múltiples búsquedas
   for (const query of searchQueries.slice(0, 8)) {
     try {
       const response = await fetch(
@@ -138,11 +136,9 @@ async function buscarEmpleosExperto(cvText: string) {
 
           if (!validLocation) continue;
 
-          // Calcular match score
           let matchScore = 0;
           const fullText = `${job.title} ${job.description || ''}`.toLowerCase();
 
-          // Scoring por relevancia
           if (fullText.includes('machine learning') || fullText.includes(' ml ') || fullText.includes(' ai ')) matchScore += 30;
           if (fullText.includes('automation')) matchScore += 25;
           if (fullText.includes('data engineer')) matchScore += 20;
@@ -151,30 +147,25 @@ async function buscarEmpleosExperto(cvText: string) {
           if (fullText.includes('senior') || fullText.includes('lead') || fullText.includes('principal')) matchScore += 15;
           if (fullText.includes('$') || salary) matchScore += 10;
 
-          // Bonus por keywords del CV
           for (const kw of priorityKeywords) {
             if (fullText.includes(kw)) matchScore += 20;
           }
 
-          // Determinar nivel
           let nivel = 'Mid';
           if (title.includes('senior') || title.includes('sr.') || title.includes('lead')) nivel = 'Senior';
           if (title.includes('principal') || title.includes('staff') || title.includes('director')) nivel = 'Principal';
           if (title.includes('junior') || title.includes('jr.') || title.includes('entry')) nivel = 'Junior';
 
-          // Extraer salario mínimo
           let salarioMin = 0;
           const salaryMatch = salary.match(/\$?([\d,]+)/);
           if (salaryMatch) {
             salarioMin = parseInt(salaryMatch[1].replace(/,/g, ''));
           }
 
-          // Solo incluir si cumple criterios
           if (salarioMin < 2500 && salary !== '' && !salary.toLowerCase().includes('competitive')) {
             continue;
           }
 
-          // Extraer tags
           const tags: string[] = [];
           const techKeywords = ['Python', 'SQL', 'Power BI', 'Tableau', 'Machine Learning', 'AI', 'AWS', 'Azure', 'GCP', 'Spark', 'Airflow', 'dbt', 'Snowflake', 'TensorFlow', 'PyTorch', 'LLM', 'GPT', 'n8n', 'Zapier'];
           for (const kw of techKeywords) {
@@ -201,7 +192,6 @@ async function buscarEmpleosExperto(cvText: string) {
     }
   }
 
-  // API Arbeitnow
   try {
     const response = await fetch('https://www.arbeitnow.com/api/job-board-api', {
       next: { revalidate: 1800 },
@@ -245,7 +235,6 @@ async function buscarEmpleosExperto(cvText: string) {
     console.error('Error con Arbeitnow:', error);
   }
 
-  // Eliminar duplicados y ordenar por match
   const urlsVistas = new Set<string>();
   const empleosUnicos = empleos
     .filter((emp) => {
@@ -283,9 +272,9 @@ async function obtenerDatosFinancieros() {
 
   const activos: any[] = [];
 
-  for (const item of allSymbols) {
+  // Procesar en paralelo para mayor velocidad
+  const promises = allSymbols.map(async (item) => {
     try {
-      // Yahoo Finance API
       const response = await fetch(
         `https://query1.finance.yahoo.com/v8/finance/chart/${item.symbol}?interval=1d&range=1mo`,
         {
@@ -312,7 +301,6 @@ async function obtenerDatosFinancieros() {
             const cambioSemanal = ((precioActual - precioSemana) / precioSemana) * 100;
             const cambioMensual = ((precioActual - precioMes) / precioMes) * 100;
 
-            // Determinar sector
             let sector = 'Otros';
             for (const [key, symbols] of Object.entries(FINANCIAL_SYMBOLS)) {
               if (symbols.some((s: any) => s.symbol === item.symbol)) {
@@ -321,17 +309,15 @@ async function obtenerDatosFinancieros() {
               }
             }
 
-            // Determinar riesgo
             const volatilidad = Math.abs(cambioSemanal);
             let riesgo = 'Medio';
             if (sector === 'Crypto' || volatilidad > 10) riesgo = 'Alto';
-            if (sector === 'Consumer' || sector === 'Healthcare' || volatilidad < 3) riesgo = 'Bajo';
+            if (sector === 'Consumer' || (sector === 'Etfs' && !item.symbol.includes('IBIT')) || volatilidad < 3) riesgo = 'Bajo';
 
-            // Generar recomendación inteligente
             const recomendacion = generarRecomendacion(cambioDiario, cambioSemanal, cambioMensual, sector, riesgo);
 
-            activos.push({
-              simbolo: item.symbol.replace('-USD', '').replace('.BA', ''),
+            return {
+              simbolo: item.symbol.replace('-USD', ''),
               nombre: item.name,
               sector,
               descripcion: item.desc,
@@ -342,24 +328,28 @@ async function obtenerDatosFinancieros() {
               riesgo,
               horizonte: 'Mediano plazo (6-24 meses)',
               recomendacion,
-            });
+            };
           }
         }
       }
     } catch (error) {
       console.error(`Error obteniendo ${item.symbol}:`, error);
     }
-  }
+    return null;
+  });
+
+  const results = await Promise.all(promises);
+  const validActivos = results.filter((a) => a !== null);
 
   return NextResponse.json({
-    activos,
+    activos: validActivos,
     actualizacion: new Date().toISOString(),
     resumen: {
-      total: activos.length,
-      positivos: activos.filter((a) => a.cambio > 0).length,
-      negativos: activos.filter((a) => a.cambio < 0).length,
+      total: validActivos.length,
+      positivos: validActivos.filter((a: any) => a.cambio > 0).length,
+      negativos: validActivos.filter((a: any) => a.cambio < 0).length,
     },
-    disclaimer: 'Análisis informativo. No es asesoría financiera. DYOR.',
+    disclaimer: 'Análisis informativo. No es asesoría financiera. DYOR - Do Your Own Research.',
   });
 }
 
@@ -371,70 +361,107 @@ function generarRecomendacion(
   riesgo: string
 ): { tipo: string; texto: string; accion: string } {
 
-  // Tendencia general
   const tendencia = (diario + semanal * 2 + mensual * 3) / 6;
 
-  // Casos específicos
-  if (mensual > 20 && semanal > 10) {
+  if (mensual > 25 && semanal > 12) {
     return {
       tipo: 'precaucion',
       accion: '⚠️ TOMAR GANANCIAS',
-      texto: `Subida del ${mensual.toFixed(1)}% mensual. Considerar vender 20-30% para asegurar ganancias.`,
+      texto: `Rally del ${mensual.toFixed(0)}% mensual. Vender 25-30% para asegurar profit. Subir stop-loss.`,
     };
   }
 
-  if (mensual < -20 && semanal < -10) {
+  if (mensual > 15 && semanal > 8) {
+    return {
+      tipo: 'precaucion',
+      accion: '📊 REDUCIR POSICIÓN',
+      texto: `Subida fuerte ${mensual.toFixed(0)}% mes. Considerar tomar ganancias parciales (15-20%).`,
+    };
+  }
+
+  if (mensual < -25 && semanal < -12) {
     return {
       tipo: 'alerta',
-      accion: '🔴 ESPERAR',
-      texto: `Caída del ${Math.abs(mensual).toFixed(1)}% mensual. No atrapar cuchillos cayendo. Esperar soporte.`,
+      accion: '🔴 NO COMPRAR - ESPERAR',
+      texto: `Caída del ${Math.abs(mensual).toFixed(0)}% mensual. Cuchillo cayendo. Esperar señales de reversión.`,
     };
   }
 
-  if (mensual < -10 && semanal > 0 && diario > 0) {
+  if (mensual < -15 && semanal < -8) {
+    return {
+      tipo: 'alerta',
+      accion: '⏸️ ESPERAR SOPORTE',
+      texto: `Corrección fuerte. No atrapar. Esperar volumen de capitulación y soporte técnico.`,
+    };
+  }
+
+  if (mensual < -12 && semanal > 3 && diario > 1) {
     return {
       tipo: 'oportunidad',
-      accion: '🟢 OPORTUNIDAD DCA',
-      texto: 'Rebotando después de caída. Buen momento para DCA si fundamentos son sólidos.',
+      accion: '🟢 COMPRA DCA',
+      texto: `Rebote técnico después de caída. Iniciar DCA si fundamentos son sólidos. 25% ahora.`,
     };
   }
 
-  if (tendencia > 5 && tendencia < 15) {
-    return {
-      tipo: 'positivo',
-      accion: '📈 MANTENER/ACUMULAR',
-      texto: 'Tendencia alcista saludable. Mantener posición y considerar agregar en pullbacks.',
-    };
-  }
-
-  if (tendencia >= -5 && tendencia <= 5) {
-    return {
-      tipo: 'neutral',
-      accion: '➡️ NEUTRAL - DCA',
-      texto: 'Consolidando. Ideal para DCA mensual. No perseguir ni vender por pánico.',
-    };
-  }
-
-  if (tendencia < -5 && tendencia > -15) {
+  if (mensual < -8 && semanal > 0) {
     return {
       tipo: 'oportunidad',
       accion: '🔍 EVALUAR ENTRADA',
-      texto: 'Corrección moderada. Investigar causa. Si fundamentos OK, considerar compra escalonada.',
+      texto: `Estabilizando después de corrección. Investigar causa. Si OK, iniciar posición pequeña.`,
     };
   }
 
-  // Default basado en riesgo
+  if (tendencia > 8 && tendencia < 18) {
+    return {
+      tipo: 'positivo',
+      accion: '📈 MANTENER',
+      texto: `Tendencia alcista saludable. Mantener 100%. Agregar solo en pullbacks de 5-8%.`,
+    };
+  }
+
+  if (tendencia > 3 && tendencia <= 8) {
+    return {
+      tipo: 'positivo',
+      accion: '✅ ACUMULAR',
+      texto: `Momentum positivo moderado. Buen momento para DCA mensual. Mantener plan.`,
+    };
+  }
+
+  if (tendencia >= -3 && tendencia <= 3) {
+    return {
+      tipo: 'neutral',
+      accion: '➡️ DCA REGULAR',
+      texto: `Consolidación lateral. Ideal para DCA sistemático. No perseguir ni vender por pánico.`,
+    };
+  }
+
+  if (tendencia > -8 && tendencia < -3) {
+    return {
+      tipo: 'oportunidad',
+      accion: '🎯 OPORTUNIDAD',
+      texto: `Corrección leve. Si fundamentos intactos, aumentar posición gradualmente.`,
+    };
+  }
+
   if (riesgo === 'Alto') {
     return {
       tipo: 'neutral',
-      accion: '⚡ POSICIÓN PEQUEÑA',
-      texto: 'Activo volátil. Solo con capital que puedas perder. Máximo 5% del portfolio.',
+      accion: '⚡ POSICIÓN ESPECULATIVA',
+      texto: `Activo volátil. Solo capital que puedas perder (max 5% portfolio). Stop-loss obligatorio.`,
+    };
+  }
+
+  if (riesgo === 'Bajo') {
+    return {
+      tipo: 'positivo',
+      accion: '🛡️ CORE HOLDING',
+      texto: `Activo defensivo. Ideal para base del portfolio. DCA mensual recomendado.`,
     };
   }
 
   return {
     tipo: 'neutral',
     accion: '📊 MONITOREAR',
-    texto: 'Sin señal clara. Mantener watchlist y esperar mejor punto de entrada.',
+    texto: `Sin señal clara. Mantener en watchlist. Esperar mejor punto de entrada.`,
   };
 }
